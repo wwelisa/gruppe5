@@ -1,13 +1,6 @@
 <launch>
 
     <!-- Argumente -->
-    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [waffle_pi]"/>
-    <arg name="x_pos" default="1.9"/>
-    <arg name="y_pos" default="0.0"/>
-    <arg name="z_pos" default="0.0"/>
-    <arg name="cmd_vel_topic" default="/cmd_vel" />
-    <arg name="odom_topic" default="odom" />
-    <arg name="move_forward_only" default="true"/>
 
     <!-- Öffnet Gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -19,42 +12,12 @@
         <arg name="debug" value="false"/>
     </include>
 
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
-    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch" />
-    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    <!-- spawnt Roboter-->
+    <include file="$(find gruppe5)/launch/multiple_robots.launch" />
     
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
+    <!-- start RVIZ with map-->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find soa)/maps/map_hexa.yaml" />
     <node name="repostion_map" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/>
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
-    <node name="transform_imu" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /base_link /imu_link 50" />
-
-    <!-- startet EKF-Lok Node-->
-    <node name="ekf" pkg="gruppe5" type="ekf" output="screen">
-        <rosparam command="load" file="$(find gruppe5)/maps/landmarks.yaml" />
-        <remap from="/ekf/sensor_sub" to="/scan" />
-        <remap from="/ekf/odom_sub" to="/odom" />
-        <remap from="/ekf/move_sub" to="/cmd_vel" />
-        <remap from="/ekf/imu_sub" to="/imu" />  
-    </node>
-
-    <!-- Node zum Ziele anfahren (Pfadplannung) -->
-    <node name="move_rob" pkg="gruppe5" type="move_rob" output="screen">
-        <rosparam command="load" file="$(find gruppe5)/cfg/goals.yaml" />
-    </node>
-
-    <!-- https://github.com/ROBOTIS-GIT/turtlebot3/blob/master/turtlebot3_navigation/launch/move_base.launch -->
-    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-        <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find turtlebot3_navigation)/param/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find turtlebot3_navigation)/param/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find turtlebot3_navigation)/param/move_base_params.yaml" command="load" />
-        <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load" />
-        <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
-        <remap from="odom" to="$(arg odom_topic)"/>
-        <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
-    </node>
-    <!-- ////////////////////////////////////////////////////////////////// -->
 
 </launch>
