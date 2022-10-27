@@ -14,6 +14,9 @@
 
     <!-- spawnt Roboter-->
     <include file="$(find gruppe5)/launch/multiple_robots.launch" />
+
+    <!--Wahrscheinlich notwenidig um die tfs undso hinzubekommen-->
+    <!--include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch" /-->
     
     <!-- start RVIZ with map-->
     <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
