@@ -7,7 +7,7 @@
         <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="true"/>
+        <arg name="gui" value="false"/>
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
     </include>
@@ -20,5 +20,10 @@
     <node name="repostion_map" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/>
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
+    <node pkg="gruppe5" type="cam" name="cam" output="screen">
+        
+        <remap from="/cam/sub_camera" to="/camera/rgb/image_raw" />
+
+    </node>
 
 </launch>
