@@ -1,4 +1,4 @@
-# Mechatronik 2 Projekt
+# SOA Projekt
 
 ## Git installieren
 
@@ -10,7 +10,7 @@ Nach Abschluss der Installation sind "git" Befehele über die Konsole ausführba
 
 - Git Repository klonen: 
   ```bash
-  git clone https://gitlab.com/maxkremmel/mechatronik2-projekt.git
+  git clone https://github.com/wwelisa/gruppe5.git
   ```
 - Falls das Repo lokal schon verfügbar ist aber eventuell nicht aktuell ist mit git pull updaten.
   ```bash
