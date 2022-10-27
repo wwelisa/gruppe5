@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>soa</name>
+  <name>gruppe5</name>
   <version>0.0.0</version>
-  <description>The soa package</description>
+  <description>The gruppe5 package</description>
 
-  <maintainer email="mr21m006@technikum-wien.at">soa</maintainer>
+  <maintainer email="mr21m006@technikum-wien.at">gruppe5</maintainer>
   <license>TODO</license>
 
 
