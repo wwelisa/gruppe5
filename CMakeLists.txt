@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(soa)
+project(gruppe5)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
     message_filters
     move_base_msgs
 )
-#find_package(gazebo REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -39,8 +38,8 @@ include_directories(
 )
 
 ############### EXE #####################
-add_executable(ekf src/ekf.cpp)
-target_link_libraries(ekf ${catkin_LIBRARIES})
+add_executable(cam src/camera.cpp)
+target_link_libraries(cam ${catkin_LIBRARIES})
 
-add_executable(move_rob src/move_robot.cpp)
-target_link_libraries(move_rob ${catkin_LIBRARIES})
+add_executable(move_robot src/move_robot.cpp)
+target_link_libraries(move_robot ${catkin_LIBRARIES})
