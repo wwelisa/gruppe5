@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+
+<robot name="ball" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <material name="blue">
+    <color rgba="0.203125 0.23828125 0.28515625 1.0"/>
+  </material>
+
+  <gazebo reference="ball">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+   <link name="ball">
+    <!-- pose and inertial -->
+    <pose>0 0 0.1 0 0 0</pose>
+
+    <!-- body -->
+    <!-- caster front -->
+    <collision name="ball_coll">
+      <origin rpy=" 0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5"/>
+      <origin rpy="0 0 0" xyz="0 0 0.1"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+    <visual name="ball_vis">
+      <origin rpy=" 0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+  </link>
+  
+</robot>
