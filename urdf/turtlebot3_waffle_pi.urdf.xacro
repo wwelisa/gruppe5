@@ -36,22 +36,6 @@
     </inertial>
   </link>
 
-  <joint name="ball_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="ball_link"/>
-    <origin xyz="0.0 0.0 0.5" rpy="0 0 0"/>
-  </joint>
-
-  <link name="ball_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <sphere radius="0.2"/>
-      </geometry>
-      <material name="dark"/>
-    </collision>
-  </link>
-
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
