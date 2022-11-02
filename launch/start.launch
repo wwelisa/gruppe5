@@ -1,8 +1,6 @@
 <launch>
 
-    <!-- Argumente -->
-
-    <!-- Öffnet Gazebo -->
+    <!-- open Gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
         <arg name="paused" value="false"/>
@@ -12,7 +10,7 @@
         <arg name="debug" value="false"/>
     </include>
 
-    <!-- spawnt Roboter-->
+    <!-- spawns robots-->
     <include file="$(find gruppe5)/launch/multiple_robots.launch" />
 
     <!--Wahrscheinlich notwenidig um die tfs undso hinzubekommen-->
@@ -27,11 +25,10 @@
 
     <!-- start RVIZ with map-->
     <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
-
-    
-
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
+
+    <!-- start selfmade nodes -->
     <node pkg="gruppe5" type="cam" name="cam" output="screen">
         
         <remap from="/cam/sub_camera" to="/camera/rgb/image_raw" />
