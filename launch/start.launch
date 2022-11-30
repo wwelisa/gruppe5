@@ -11,14 +11,14 @@
     </include>
 
     <!-- spawns robots-->
-    <include file="$(find gruppe5)/launch/multiple_robots.launch" />
+    <!--include file="$(find gruppe5)/launch/multiple_robots.launch" /-->
 
     <!--Wahrscheinlich notwenidig um die tfs undso hinzubekommen-->
     <!--include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch" /-->
     
-    <node name="repostion_map" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/>
 
-    <!--node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/-->
+    <!--node name="repostion_map" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/-->
+
     <!--node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/-->
  
 
@@ -27,6 +27,44 @@
     <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
+    <!-- AMCL -->
+    <group ns="robot1">
+        <param name="tf_prefix" value="robot1_tf" />
+
+        <include file="$(find gruppe5)/launch/robot.launch" >
+            <arg name="x_pos" value="0.6" />
+            <arg name="y_pos" value="0.0" />
+            <arg name="z_pos" value="0.0" />
+            <arg name="robot_name" value="robot1" />
+        </include>
+
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher_1">
+            <param name="publish_frequency" type="double" value="50.0" />
+            <param name="tf_prefix" value="robot1_tf"/>
+        </node>
+
+        <include file="$(find gruppe5)/launch/amcl.launch"/>
+        <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/>
+    </group>
+
+    <group ns="robot2">
+        <param name="tf_prefix" value="robot2_tf" />
+
+        <include file="$(find gruppe5)/launch/robot_ball.launch" >
+            <arg name="x_pos" value="-0.6" />
+            <arg name="y_pos" value="-0.3" />
+            <arg name="z_pos" value="0.0" />
+            <arg name="robot_name" value="robot2" />
+        </include>
+
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher_2">
+            <param name="publish_frequency" type="double" value="50.0" />
+            <param name="tf_prefix" value="robot2_tf"/>
+        </node>
+
+        <include file="$(find gruppe5)/launch/amcl.launch"/>
+        <node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/>
+    </group>
 
     <!-- start selfmade nodes -->
     <node pkg="gruppe5" type="cam" name="cam" output="screen">

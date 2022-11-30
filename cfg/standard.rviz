@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1/Status1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 310
@@ -131,15 +130,53 @@ Visualization Manager:
         All Enabled: false
         map:
           Value: true
-        odom:
-          Value: true
         robot1_tf/base_footprint:
+          Value: true
+        robot1_tf/base_link:
+          Value: true
+        robot1_tf/base_scan:
+          Value: true
+        robot1_tf/camera_link:
+          Value: true
+        robot1_tf/camera_rgb_frame:
+          Value: true
+        robot1_tf/camera_rgb_optical_frame:
+          Value: true
+        robot1_tf/caster_back_left_link:
+          Value: true
+        robot1_tf/caster_back_right_link:
+          Value: true
+        robot1_tf/imu_link:
           Value: true
         robot1_tf/odom:
           Value: true
+        robot1_tf/wheel_left_link:
+          Value: true
+        robot1_tf/wheel_right_link:
+          Value: true
         robot2_tf/base_footprint:
           Value: true
+        robot2_tf/base_link:
+          Value: true
+        robot2_tf/base_scan:
+          Value: true
+        robot2_tf/camera_link:
+          Value: true
+        robot2_tf/camera_rgb_frame:
+          Value: true
+        robot2_tf/camera_rgb_optical_frame:
+          Value: true
+        robot2_tf/caster_back_left_link:
+          Value: true
+        robot2_tf/caster_back_right_link:
+          Value: true
+        robot2_tf/imu_link:
+          Value: true
         robot2_tf/odom:
+          Value: true
+        robot2_tf/wheel_left_link:
+          Value: true
+        robot2_tf/wheel_right_link:
           Value: true
       Marker Alpha: 1
       Marker Scale: 0.699999988079071
@@ -149,8 +186,44 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          odom:
-            {}
+          robot1_tf/odom:
+            robot1_tf/base_footprint:
+              robot1_tf/base_link:
+                robot1_tf/base_scan:
+                  {}
+                robot1_tf/camera_link:
+                  robot1_tf/camera_rgb_frame:
+                    robot1_tf/camera_rgb_optical_frame:
+                      {}
+                robot1_tf/caster_back_left_link:
+                  {}
+                robot1_tf/caster_back_right_link:
+                  {}
+                robot1_tf/imu_link:
+                  {}
+                robot1_tf/wheel_left_link:
+                  {}
+                robot1_tf/wheel_right_link:
+                  {}
+          robot2_tf/odom:
+            robot2_tf/base_footprint:
+              robot2_tf/base_link:
+                robot2_tf/base_scan:
+                  {}
+                robot2_tf/camera_link:
+                  robot2_tf/camera_rgb_frame:
+                    robot2_tf/camera_rgb_optical_frame:
+                      {}
+                robot2_tf/caster_back_left_link:
+                  {}
+                robot2_tf/caster_back_right_link:
+                  {}
+                robot2_tf/imu_link:
+                  {}
+                robot2_tf/wheel_left_link:
+                  {}
+                robot2_tf/wheel_right_link:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz/Camera
@@ -164,7 +237,6 @@ Visualization Manager:
       Unreliable: false
       Value: true
       Visibility:
-        Camera: true
         Grid: true
         LaserScan: true
         Map: true
@@ -225,7 +297,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.551368236541748
+      Distance: 6.840090751647949
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -233,17 +305,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.40780457854270935
-        Y: -0.1409374475479126
-        Z: 0.10982201993465424
+        X: -0.10846380144357681
+        Y: -0.13274872303009033
+        Z: 0.12791450321674347
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.384796380996704
+      Pitch: 1.5597963333129883
       Target Frame: <Fixed Frame>
-      Yaw: 4.713585376739502
+      Yaw: 3.1354000568389893
     Saved: ~
 Window Geometry:
   Camera:
