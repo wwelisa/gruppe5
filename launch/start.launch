@@ -33,7 +33,7 @@
 
         <include file="$(find gruppe5)/launch/robot.launch" >
             <arg name="x_pos" value="0.6" />
-            <arg name="y_pos" value="0.0" />
+            <arg name="y_pos" value="0.3" />
             <arg name="z_pos" value="0.0" />
             <arg name="robot_name" value="robot1" />
         </include>
@@ -52,7 +52,7 @@
 
         <include file="$(find gruppe5)/launch/robot_ball.launch" >
             <arg name="x_pos" value="-0.6" />
-            <arg name="y_pos" value="-0.3" />
+            <arg name="y_pos" value="0.3" />
             <arg name="z_pos" value="0.0" />
             <arg name="robot_name" value="robot2" />
         </include>

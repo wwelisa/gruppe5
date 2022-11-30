@@ -7,12 +7,10 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
   <arg name="robot_name" default="no_name"/>
-  
-  <arg name="sdf_file" default="$(find gruppe5)/urdf/turtlebot3_ball/model.sdf"/>
 
-  <!-- needed for robot state publisher -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find gruppe5)/urdf/turtlebot3_waffle_pi.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find gruppe5)/urdf/turtlebot3_waffle_pi_ball.urdf.xacro" />
 
-  <!-- spawn robot with ball -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen" args="-file $(arg sdf_file) -sdf -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -model turtlebot3_$(arg robot_name)" />
+  <!-- spawn normal robot launch -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_$(arg robot_name) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+
 </launch>
