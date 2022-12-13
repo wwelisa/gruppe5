@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
     sensor_msgs
     image_transport
     cv_bridge
+    move_base_msgs
 )
 
 catkin_package(

@@ -43,8 +43,19 @@
             <param name="tf_prefix" value="robot1_tf"/>
         </node>
 
+        <!-- Localication Node -->
         <include file="$(find gruppe5)/launch/amcl.launch"/>
+        <!-- Move Robot Node -->
+        <include file="$(find gruppe5)/launch/move_base.launch"/>
+        
         <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/>
+
+        <!-- start selfmade nodes -->
+        <node pkg="gruppe5" type="move_robot" name="move_robot" output="screen">
+            <rosparam command="load" file="$(find gruppe5)/maps/landmarks.yaml" />
+            <!--remap from="/move_robot/goal" to="/robot1/" /-->
+        </node>
+
     </group>
 
     <group ns="robot2">
@@ -65,20 +76,6 @@
         <include file="$(find gruppe5)/launch/amcl.launch"/>
         <node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/>
     </group>
-
-    <!-- start selfmade nodes -->
-    <node pkg="gruppe5" type="cam" name="cam" output="screen">
-        
-        <remap from="/cam/sub_camera" to="/camera/rgb/image_raw" />
-
-    </node>
-
-    <!-- spawn ball>
-    <param name="ball_description" command="cat '$(find gruppe5)/urdf/test.urdf'" />
-    <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-          args="-urdf -param ball_description -model test -x 0 -y 0 -z 10" />
-
-    <node name="reposition_ball" pkg="tf" type="static_transform_publisher" args=" 1 1 0 0 0 0 /base_link /ball 50"/-->
 
 
 
