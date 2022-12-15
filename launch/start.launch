@@ -5,29 +5,16 @@
         <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="true"/>
+        <arg name="gui" value="false"/>
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
     </include>
-
-    <!-- spawns robots-->
-    <!--include file="$(find gruppe5)/launch/multiple_robots.launch" /-->
-
-    <!--Wahrscheinlich notwenidig um die tfs undso hinzubekommen-->
-    <!--include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch" /-->
-    
-
-    <!--node name="repostion_map" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/-->
-
-    <!--node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/-->
- 
-
 
     <!-- start RVIZ with map-->
     <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
-    <!-- AMCL -->
+    <!-- Robot Runner -->
     <group ns="robot1">
         <param name="tf_prefix" value="robot1_tf" />
 
@@ -46,19 +33,25 @@
         <!-- Localication Node -->
         <include file="$(find gruppe5)/launch/amcl.launch"/>
         <!-- Move Robot Node -->
-        <include file="$(find gruppe5)/launch/move_base.launch"/>
+        <include file="$(find gruppe5)/launch/move_base.launch">
+            <arg name="cmd_vel_topic" default="/robot1/cmd_vel" />
+            <arg name="odom_topic" default="/robot1/odom" />
+            <arg name="move_forward_only" default="true"/>
+        </include>
         
         <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/>
 
         <!-- start selfmade nodes -->
-        <node pkg="gruppe5" type="move_robot" name="move_robot" output="screen">
-            <rosparam command="load" file="$(find gruppe5)/maps/landmarks.yaml" />
-            <!--remap from="/move_robot/goal" to="/robot1/" /-->
+        <node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
+            <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
+            <!--remap from="/move_rob_runner/cmd_vel" to="/cmd_vel" /-->
         </node>
 
     </group>
 
-    <group ns="robot2">
+    <!-- Auskommentiert um die das Bewegen eines Roboters zustande zu kommen -->
+    <!-- Robot Follower -->
+    <!--group ns="robot2">
         <param name="tf_prefix" value="robot2_tf" />
 
         <include file="$(find gruppe5)/launch/robot_ball.launch" >
@@ -75,7 +68,7 @@
 
         <include file="$(find gruppe5)/launch/amcl.launch"/>
         <node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/>
-    </group>
+    </group-->
 
 
 

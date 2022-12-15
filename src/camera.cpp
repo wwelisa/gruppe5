@@ -14,17 +14,11 @@
 #include "sensor_msgs/Image.h"  //http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html
 
 
-
-
-
 class Camera
 {
     public:
         //--------------------- Variablen -------------------//
         bool first_measurement;     ///< template Variable
-        
-        float vx_odom_now;      ///< Fahrbefehl (Odometrie): Geschwindigkeit [m/s] in X
-        float vw_odom_now;      ///< Fahrbefehl (Odometrie): Winkelgeschwindigkeit [rad/s] um Z
 
         std_msgs::String output;  ///< Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt
         cv::Mat m_cameraImage;
@@ -93,9 +87,7 @@ int main(int argc, char** argv)
     
     Camera cam;
     std::cout << "MAIN" << std::endl;
-
-
-
+    
     ros::spin();
 }
 

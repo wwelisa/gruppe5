@@ -17,13 +17,15 @@ int main(int argc, char** argv)
     // read the goals defined in the yaml file (maps folder)
     std::vector<std::vector <double>> goals;
     goals.resize(4);
-    ros::param::get("/move_robot/goal1", goals[0]);
-    ros::param::get("/move_robot/goal2", goals[1]);
-    ros::param::get("/move_robot/goal3", goals[2]);
-    ros::param::get("/move_robot/goal4", goals[3]);
+    ros::param::get("/robot1/move_rob_runner/goal1", goals[0]);
+    ros::param::get("/robot1/move_rob_runner/goal2", goals[1]);
+    ros::param::get("/robot1/move_rob_runner/goal3", goals[2]);
+    ros::param::get("/robot1/move_rob_runner/goal4", goals[3]);
+
+    //std::cout << "goals: " << goals[0][0] << std::endl;
     
     //tell the action client that we want to spin a thread by default
-    MoveBaseClient ac("move_base", true);
+    MoveBaseClient ac("/robot1/move_base", true);
 
     //wait for the action server to come up
     while(!ac.waitForServer(ros::Duration(5.0))){
