@@ -130,29 +130,29 @@ Visualization Manager:
         All Enabled: false
         map:
           Value: true
-        robot1_tf/base_footprint:
+        robot1/base_footprint:
           Value: true
-        robot1_tf/base_link:
+        robot1/base_link:
           Value: true
-        robot1_tf/base_scan:
+        robot1/base_scan:
           Value: true
-        robot1_tf/camera_link:
+        robot1/camera_link:
           Value: true
-        robot1_tf/camera_rgb_frame:
+        robot1/camera_rgb_frame:
           Value: true
-        robot1_tf/camera_rgb_optical_frame:
+        robot1/camera_rgb_optical_frame:
           Value: true
-        robot1_tf/caster_back_left_link:
+        robot1/caster_back_left_link:
           Value: true
-        robot1_tf/caster_back_right_link:
+        robot1/caster_back_right_link:
           Value: true
-        robot1_tf/imu_link:
+        robot1/imu_link:
           Value: true
-        robot1_tf/odom:
+        robot1/odom:
           Value: true
-        robot1_tf/wheel_left_link:
+        robot1/wheel_left_link:
           Value: true
-        robot1_tf/wheel_right_link:
+        robot1/wheel_right_link:
           Value: true
       Marker Alpha: 1
       Marker Scale: 0.699999988079071
@@ -162,24 +162,24 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          robot1_tf/odom:
-            robot1_tf/base_footprint:
-              robot1_tf/base_link:
-                robot1_tf/base_scan:
+          robot1/odom:
+            robot1/base_footprint:
+              robot1/base_link:
+                robot1/base_scan:
                   {}
-                robot1_tf/camera_link:
-                  robot1_tf/camera_rgb_frame:
-                    robot1_tf/camera_rgb_optical_frame:
+                robot1/camera_link:
+                  robot1/camera_rgb_frame:
+                    robot1/camera_rgb_optical_frame:
                       {}
-                robot1_tf/caster_back_left_link:
+                robot1/caster_back_left_link:
                   {}
-                robot1_tf/caster_back_right_link:
+                robot1/caster_back_right_link:
                   {}
-                robot1_tf/imu_link:
+                robot1/imu_link:
                   {}
-                robot1_tf/wheel_left_link:
+                robot1/wheel_left_link:
                   {}
-                robot1_tf/wheel_right_link:
+                robot1/wheel_right_link:
                   {}
       Update Interval: 0
       Value: true
