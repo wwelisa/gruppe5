@@ -11,50 +11,71 @@
     </include>
 
     <!-- start RVIZ with map-->
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" />
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" output="screen"/>
+
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
-    <!-- Robot Runner -->
-    <group ns="robot1">
-        <param name="tf_prefix" value="robot1_tf" />
-
-        <include file="$(find gruppe5)/launch/robot.launch" >
+    <include file="$(find gruppe5)/launch/robot.launch" >
             <arg name="x_pos" value="0.6" />
             <arg name="y_pos" value="0.3" />
             <arg name="z_pos" value="0.0" />
             <arg name="robot_name" value="robot1" />
-        </include>
+    </include>
 
-        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher_1">
-            <param name="publish_frequency" type="double" value="50.0" />
-            <param name="tf_prefix" value="robot1_tf"/>
-        </node>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher_1">
+        <param name="publish_frequency" type="double" value="50.0" />
+        <!--param name="tf_prefix" value="robot1"/-->
+    </node>
 
-        <!-- Localication Node -->
-        <include file="$(find gruppe5)/launch/amcl.launch">
+    <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /odom 50"/>
+
+    <include file="$(find gruppe5)/launch/amcl.launch">
+            <arg name="node_name" default="amcl"/>
             <arg name="scan_topic" default="scan"/>
             <arg name="initial_pose_x" default="0.6"/>
             <arg name="initial_pose_y" default="0.3"/>
             <arg name="initial_pose_a" default="0.0"/>
+
+            <!--param name="tf_prefix" value="robot1"/-->
+            <remap from="map" to="/map"/>
+            <param name="odom_frame_id" value="odom"/>
+            <param name="base_frame_id" value="base_footprint"/>
+            <param name="global_frame_id" value="map"/>
+            <param name="use_map_topic" value="true"/>
+
+            <!--remap from="amcl/parameter_descriptions" to="/amcl1/amcl/parameter_descriptions"/>
+            <remap from="amcl/parameter_updates" to="/amcl1/amcl/parameter_updates"/>
+            <remap from="amcl_pose" to="/amcl1/amcl_pose"/>
+            <remap from="diagnostics" to="/amcl1/diagnostics"/>
+            <remap from="particlecloud" to="/robot1/particlecloud"/-->
         </include>
 
+    <!-- Robot Runner -->
+    <!--group ns="robot1"-->
+        <!--param name="tf_prefix" value="robot1" /-->
+
+        
+        
+        <!-- Localication Node -->
+        
         <!-- Move Robot Node -->
-        <include file="$(find gruppe5)/launch/move_base.launch">
+        <!--include file="$(find gruppe5)/launch/move_base.launch">
             <arg name="cmd_vel_topic" default="/robot1/cmd_vel" />
             <arg name="odom_topic" default="/robot1/odom" />
             <arg name="move_forward_only" default="true"/>
-        </include>
+        </include-->
         
-        <!--node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/-->
-
         <!-- start selfmade nodes -->
-        <node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
+        <!--node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
-            <!--remap from="/move_rob_runner/cmd_vel" to="/cmd_vel" /-->
-        </node>
+            <!-remap from="/move_rob_runner/cmd_vel" to="/cmd_vel" /->
+        </node-->
 
-    </group>
+    <!--/group-->
 
+
+    
+    
     <!-- Auskommentiert um die das Bewegen eines Roboters zustande zu kommen -->
     <!-- Robot Follower -->
     <!--group ns="robot2">
