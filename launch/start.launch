@@ -31,7 +31,13 @@
         </node>
 
         <!-- Localication Node -->
-        <include file="$(find gruppe5)/launch/amcl.launch"/>
+        <include file="$(find gruppe5)/launch/amcl.launch">
+            <arg name="scan_topic" default="scan"/>
+            <arg name="initial_pose_x" default="0.6"/>
+            <arg name="initial_pose_y" default="0.3"/>
+            <arg name="initial_pose_a" default="0.0"/>
+        </include>
+
         <!-- Move Robot Node -->
         <include file="$(find gruppe5)/launch/move_base.launch">
             <arg name="cmd_vel_topic" default="/robot1/cmd_vel" />
@@ -39,7 +45,7 @@
             <arg name="move_forward_only" default="true"/>
         </include>
         
-        <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/>
+        <!--node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot1_tf/odom 50"/-->
 
         <!-- start selfmade nodes -->
         <node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
