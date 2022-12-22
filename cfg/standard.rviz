@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1/Frames1
+        - /LaserScan_r21
       Splitter Ratio: 0.5
     Tree Height: 310
   - Class: rviz/Selection
@@ -27,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: LaserScan_r1
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -111,7 +112,7 @@ Visualization Manager:
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
-      Name: LaserScan
+      Name: LaserScan_r1
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
@@ -154,6 +155,32 @@ Visualization Manager:
           Value: true
         robot1/wheel_right_link:
           Value: true
+        robot2/ball_link:
+          Value: true
+        robot2/base_footprint:
+          Value: true
+        robot2/base_link:
+          Value: true
+        robot2/base_scan:
+          Value: true
+        robot2/camera_link:
+          Value: true
+        robot2/camera_rgb_frame:
+          Value: true
+        robot2/camera_rgb_optical_frame:
+          Value: true
+        robot2/caster_back_left_link:
+          Value: true
+        robot2/caster_back_right_link:
+          Value: true
+        robot2/imu_link:
+          Value: true
+        robot2/odom:
+          Value: true
+        robot2/wheel_left_link:
+          Value: true
+        robot2/wheel_right_link:
+          Value: true
       Marker Alpha: 1
       Marker Scale: 0.699999988079071
       Name: TF
@@ -181,12 +208,33 @@ Visualization Manager:
                   {}
                 robot1/wheel_right_link:
                   {}
+          robot2/odom:
+            robot2/base_footprint:
+              robot2/base_link:
+                robot2/ball_link:
+                  {}
+                robot2/base_scan:
+                  {}
+                robot2/camera_link:
+                  robot2/camera_rgb_frame:
+                    robot2/camera_rgb_optical_frame:
+                      {}
+                robot2/caster_back_left_link:
+                  {}
+                robot2/caster_back_right_link:
+                  {}
+                robot2/imu_link:
+                  {}
+                robot2/wheel_left_link:
+                  {}
+                robot2/wheel_right_link:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /camera/rgb/image_raw
+      Image Topic: /robot2/camera/rgb/image_raw
       Name: Camera
       Overlay Alpha: 0.5
       Queue Size: 2
@@ -195,10 +243,12 @@ Visualization Manager:
       Value: true
       Visibility:
         Grid: true
-        LaserScan: true
+        LaserScan_r1: true
+        LaserScan_r2: true
         Map: true
         Path: true
-        PoseArray: true
+        PoseArray_r1: true
+        PoseArray_r2: true
         RobotModel: true
         TF: true
         Value: true
@@ -236,13 +286,58 @@ Visualization Manager:
       Enabled: true
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
-      Name: PoseArray
+      Name: PoseArray_r1
       Queue Size: 10
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
       Topic: /robot1/particlecloud
       Unreliable: false
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.10000000149011612
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 0; 0; 255
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: PoseArray_r2
+      Queue Size: 10
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Arrow (Flat)
+      Topic: /robot2/particlecloud
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan_r2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /robot2/scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
   Enabled: true
   Global Options:

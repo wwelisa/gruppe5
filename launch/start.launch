@@ -1,4 +1,20 @@
 <launch>
+    <!-- open Gazebo -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <!-- start RVIZ with map-->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" output="screen">
+        <param name="frame_id" value="map" />
+    </node>
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
+
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />
@@ -11,22 +27,6 @@
     <arg name="r2_y" value="0.3" />
     <arg name="r2_z" value="0.0" />
 
-
-    <!-- open Gazebo -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
-        <arg name="paused" value="false"/>
-        <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="false"/>
-        <arg name="headless" value="false"/>
-        <arg name="debug" value="false"/>
-    </include>
-
-    <!-- start RVIZ with map-->
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find gruppe5)/maps/map_hexa.yaml" output="screen">
-        <param name="frame_id" value="map" />
-    </node>
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
     <!-- Robot Runner -->
     <group ns="$(arg prefix1)">
@@ -50,9 +50,9 @@
         <!-- Localication Node -->
         <remap from="/$(arg prefix1)/map" to="/map"/>
         <include file="$(find gruppe5)/launch/amcl.launch">
-            <arg name="node_name" default="amcl"/>
+            <arg name="node_name" value="amcl_1"/>
             <arg name="ns_tf" value="/$(arg prefix1)/"/>
-            <arg name="scan_topic" default="/$(arg prefix1)/scan"/>
+            <arg name="scan_topic" value="/$(arg prefix1)/scan"/>
             
             <arg name="initial_pose_x" default="$(arg r1_x)"/>
             <arg name="initial_pose_y" default="$(arg r1_y)"/>
@@ -65,41 +65,55 @@
         <!--include file="$(find gruppe5)/launch/move_base.launch">
             <arg name="cmd_vel_topic" default="/$(arg prefix1)/cmd_vel" />
             <arg name="odom_topic" default="/$(arg prefix1)/odom" />
-            <arg name="move_forward_only" default="true"/>
+            <arg name="move_forward_only" default="false"/>
         </include-->
         
         <!-- start selfmade nodes -->
         <!--node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
-            <!-remap from="/move_rob_runner/cmd_vel" to="/cmd_vel" /->
         </node-->
 
     </group>
 
-
-    
-    
-    <!-- Auskommentiert um die das Bewegen eines Roboters zustande zu kommen -->
     <!-- Robot Follower -->
-    <!--group ns="robot2">
-        <param name="tf_prefix" value="robot2_tf" />
+    <group ns="$(arg prefix2)">
+        <param name="tf_prefix" value="$(arg prefix2)" />
 
+        <!-- spawn Robot-->
         <include file="$(find gruppe5)/launch/robot_ball.launch" >
-            <arg name="x_pos" value="-0.6" />
-            <arg name="y_pos" value="0.3" />
-            <arg name="z_pos" value="0.0" />
-            <arg name="robot_name" value="robot2" />
+            <arg name="x_pos" value="$(arg r2_x)" />
+            <arg name="y_pos" value="$(arg r2_y)" />
+            <arg name="z_pos" value="$(arg r2_z)" />
+            <arg name="robot_name" value="$(arg prefix2)" />
         </include>
 
         <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher_2">
             <param name="publish_frequency" type="double" value="50.0" />
-            <param name="tf_prefix" value="robot2_tf"/>
+            <param name="tf_prefix" value="$(arg prefix2)"/>
         </node>
 
-        <include file="$(find gruppe5)/launch/amcl.launch"/>
-        <node name="map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /robot2_tf/odom 50"/>
-    </group-->
+        <node name="tf_map_robot2" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /$(arg prefix2)/odom 50"/>
 
+        <!-- Localication Node -->
+        <remap from="/$(arg prefix2)/map" to="/map"/>
+        <include file="$(find gruppe5)/launch/amcl.launch">
+            <arg name="node_name" value="amcl_2"/>
+            <arg name="ns_tf" value="/$(arg prefix2)/"/>
+            <arg name="scan_topic" default="/$(arg prefix2)/scan"/>
+            
+            <arg name="initial_pose_x" default="$(arg r2_x)"/>
+            <arg name="initial_pose_y" default="$(arg r2_y)"/>
+            <arg name="initial_pose_a" default="$(arg r2_z)"/>
 
+            <param name="tf_prefix" value="$(arg prefix2)"/>
+        </include>
+        
+        <!-- Move Robot Node -->
+        <!--include file="$(find gruppe5)/launch/move_base.launch">
+            <arg name="cmd_vel_topic" default="/$(arg prefix1)/cmd_vel" />
+            <arg name="odom_topic" default="/$(arg prefix1)/odom" />
+            <arg name="move_forward_only" default="false"/>
+        </include-->
 
+    </group>
 </launch>
