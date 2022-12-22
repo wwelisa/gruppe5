@@ -34,22 +34,22 @@
             <param name="tf_prefix" value="$(arg prefix1)"/>
         </node>
 
-        <node name="map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /$(arg prefix1)/odom 50"/>
+        <node name="tf_map_robot1" pkg="tf" type="static_transform_publisher" args=" 0 0 0 0 0 0 /map /$(arg prefix1)/odom 50"/>
+        <remap from="/$(arg prefix1)/map" to="/map"/>
 
         <include file="$(find gruppe5)/launch/amcl.launch">
             <arg name="node_name" default="amcl"/>
-            <arg name="scan_topic" default="scan"/>
+            <arg name="scan_topic" default="/$(arg prefix1)/scan"/>
             <arg name="initial_pose_x" default="0.6"/>
             <arg name="initial_pose_y" default="0.3"/>
             <arg name="initial_pose_a" default="0.0"/>
 
             <param name="tf_prefix" value="$(arg prefix1)"/>
-            <remap from="map" to="/map"/>
-            <param name="odom_frame_id" value="$(arg prefix1)/odom"/>
-            <param name="base_frame_id" value="$(arg prefix1)/base_footprint"/>
+            <remap from="/$(arg prefix1)/map" to="/map"/>
+            <param name="odom_frame_id" value="/$(arg prefix1)/odom"/>
+            <param name="base_frame_id" value="/$(arg prefix1)/base_footprint"/>
             <param name="global_frame_id" value="map"/>
             <param name="use_map_topic" value="true"/>
-
         </include>
         
         
