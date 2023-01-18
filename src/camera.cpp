@@ -13,6 +13,27 @@
 #include "std_msgs/String.h"
 #include "sensor_msgs/Image.h"  //http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html
 
+using namespace cv;
+
+cv::Mat Segment(Mat img){
+    //create the result image the same dimensions as the original
+    int img_row = img.rows;
+    int img_col = img.cols;
+    Mat resultImg(img_row, img_col, CV_32F, cv::Scalar(100));
+
+    //iterate through the image
+    for(int i = 0; i < img_row; i++){
+        for(int j = 0; j < img_col; j++){       
+            resultImg.at<float>(i, j) = 2* (int)img.at<Vec3b>(i, j)[0] - (int)img.at<Vec3b>(i, j)[1] - (int)img.at<Vec3b>(i, j)[2];   //2B-R-G   img = BGR 
+        }
+
+    }
+
+    //converte the result image to 8U 
+    resultImg.convertTo(resultImg, CV_8U);
+
+    return resultImg;
+}
 
 class Camera
 {
@@ -31,6 +52,7 @@ class Camera
         ros::Publisher tf_pub;    ///< Publisher für die erkannte Kugelposition
         ros::Subscriber sub_camera;      ///< Subscriber für die Kamera
         cv::Mat imageCb(const sensor_msgs::ImageConstPtr& msg);
+        void ImageProcessing();
 };
 
 cv::Mat Camera::imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -50,6 +72,16 @@ cv::Mat Camera::imageCb(const sensor_msgs::ImageConstPtr& msg)
     }
   }
 
+Camera::Camera()
+{
+    ros::NodeHandle node("~");
+    
+    sub_camera = node.subscribe("sub_topic", 1000, &Camera::callbackCamera, this); //Camera-image
+    
+    tf_pub = node.advertise<std_msgs::String>("pub_cam_tf", 1);
+
+}
+
 void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
 {
     //std::cout << "CALLBACK" << std::endl;
@@ -57,28 +89,55 @@ void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
     //output = cameraImage.width.toString();
     if(cameraImage->width != 0){
         m_cameraImage = imageCb(cameraImage);
-        std::cout << "CALLBACK" << std::endl;
-        //std::cout << "cam: " << m_cameraImage << std::endl;
-        //cv::namedWindow("test", 0);  
-        cv::imshow("test", m_cameraImage);
-        cv::waitKey(2000); 
-
+        ImageProcessing();
     }
     output.data = "text";
     tf_pub.publish(output);
 }
 
+void Camera::ImageProcessing(){
+
+  cv::Mat img = m_cameraImage.clone();
+  cv::Mat img_segment = Segment(img);
+  cv::Mat img_edges, img_result;
+
+  cv::Canny(img_segment, img_edges, 0, 10, 5);
+  std::vector<std::vector<cv::Point> > contours;
+  std::vector<Vec4i> hierarchy;
+  cv::findContours(img_edges.clone(), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 
-Camera::Camera()
-{
-    ros::NodeHandle node("~");
-    
-    sub_camera = node.subscribe("sub_camera", 1, &Camera::callbackCamera, this); //Camera-image
-    
-    tf_pub = node.advertise<std_msgs::String>("pub_cam_tf", 1);
+  for(int idx=0 ; idx >= 0; idx = hierarchy[idx][0] )
+  {
+      Scalar color( rand()&255, rand()&255, rand()&255 );
+      drawContours( img_edges, contours, idx, color, FILLED, 8, hierarchy );
+  }
+  std::cout << "\n\n\n\n cont:" << contours[0] << "\n\n\n\n\n" << std::endl;
+  /*
+  cv::Point2f center;
+  float radius = 0;
+  minEnclosingCircle(contours[0], center, radius);
 
+  std::cout << "\n\n\n\n\n\n\n\n\n radius:" << radius << std::endl;
+  
+  //Point2f center = Point2f(40,40);
+  //cv::circle(img, center, 5, Scalar(255,255,255), FILLED, 8,0);
+
+  /*
+  cv::putText(img, // target image
+                "hello", // text
+                cv::Point(20,20), // top-left position
+                cv::FONT_HERSHEY_DUPLEX,
+                1.0,
+                CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), // font color
+                1);
+  */
+
+  cv::imshow("test", img_edges);
+  cv::waitKey(20); 
 }
+
+
 
 
 int main(int argc, char** argv)
@@ -86,7 +145,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "ekf");
     
     Camera cam;
-    std::cout << "MAIN" << std::endl;
+    std::cout << "\n\n\n\n\n\n\n\n\nMAIN" << std::endl;
     
     ros::spin();
 }
