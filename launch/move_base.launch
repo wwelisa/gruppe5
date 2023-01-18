@@ -4,6 +4,7 @@
   <arg name="cmd_vel_topic" default="cmd_vel" />
   <arg name="odom_topic" default="odom" />
   <arg name="move_forward_only" default="true"/>
+  <arg name="prefix" default=""/>
   
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -17,6 +18,11 @@
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
+    <!--https://answers.ros.org/question/347139/move_base-namespace-issue-with-multi-robot-simulation/-->
+    <param name="global_costmap/robot_base_frame" value="$(arg prefix)/base_footprint"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg prefix)/base_footprint"/>
+    <param name="local_costmap/global_frame" value="$(arg prefix)/odom"/>
+    <remap from="map" to="/map" />
   </node>
 
 </launch>

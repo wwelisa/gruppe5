@@ -4,7 +4,7 @@
         <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="true"/>
+        <arg name="gui" value="false"/>
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
     </include>
@@ -18,17 +18,18 @@
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />
-    <arg name="r1_x" value="0.6" />
+    <arg name="r1_x" value="-0.6" />
     <arg name="r1_y" value="0.3" />
     <arg name="r1_z" value="0.0" />
 
     <arg name="prefix2" value="robot2" />
-    <arg name="r2_x" value="-0.6" />
+    <arg name="r2_x" value="0.6" />
     <arg name="r2_y" value="0.3" />
     <arg name="r2_z" value="0.0" />
 
 
-    <!-- Robot Runner -->
+    <!-- Robot Follower -->
+    <!--//////////////-->
     <group ns="$(arg prefix1)">
         <param name="tf_prefix" value="$(arg prefix1)" />
 
@@ -54,28 +55,34 @@
             <arg name="ns_tf" value="/$(arg prefix1)/"/>
             <arg name="scan_topic" value="/$(arg prefix1)/scan"/>
             
-            <arg name="initial_pose_x" default="$(arg r1_x)"/>
-            <arg name="initial_pose_y" default="$(arg r1_y)"/>
-            <arg name="initial_pose_a" default="$(arg r1_z)"/>
+            <arg name="initial_pose_x" value="$(arg r1_x)"/>
+            <arg name="initial_pose_y" value="$(arg r1_y)"/>
+            <arg name="initial_pose_a" value="$(arg r1_z)"/>
 
             <param name="tf_prefix" value="$(arg prefix1)"/>
         </include>
         
         <!-- Move Robot Node -->
-        <!--include file="$(find gruppe5)/launch/move_base.launch">
-            <arg name="cmd_vel_topic" default="/$(arg prefix1)/cmd_vel" />
-            <arg name="odom_topic" default="/$(arg prefix1)/odom" />
-            <arg name="move_forward_only" default="false"/>
-        </include-->
+        <include file="$(find gruppe5)/launch/move_base.launch">
+            <arg name="cmd_vel_topic" value="/$(arg prefix1)/cmd_vel" />
+            <arg name="odom_topic" value="/$(arg prefix1)/odom" />
+            <arg name="move_forward_only" value="false"/>
+            <arg name="prefix" value="$(arg prefix1)"/>
+        </include>
         
         <!-- start selfmade nodes -->
-        <!--node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
+        <!-- publishes goals -->
+        <node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
-        </node-->
+        </node>
 
     </group>
+    <!--//////////////-->
 
-    <!-- Robot Follower -->
+        
+
+    <!-- Robot Runner -->
+    <!--//////////////-->
     <group ns="$(arg prefix2)">
         <param name="tf_prefix" value="$(arg prefix2)" />
 
@@ -99,21 +106,30 @@
         <include file="$(find gruppe5)/launch/amcl.launch">
             <arg name="node_name" value="amcl_2"/>
             <arg name="ns_tf" value="/$(arg prefix2)/"/>
-            <arg name="scan_topic" default="/$(arg prefix2)/scan"/>
+            <arg name="scan_topic" value="/$(arg prefix2)/scan"/>
             
-            <arg name="initial_pose_x" default="$(arg r2_x)"/>
-            <arg name="initial_pose_y" default="$(arg r2_y)"/>
-            <arg name="initial_pose_a" default="$(arg r2_z)"/>
+            <arg name="initial_pose_x" value="$(arg r2_x)"/>
+            <arg name="initial_pose_y" value="$(arg r2_y)"/>
+            <arg name="initial_pose_a" value="$(arg r2_z)"/>
 
             <param name="tf_prefix" value="$(arg prefix2)"/>
         </include>
         
         <!-- Move Robot Node -->
-        <!--include file="$(find gruppe5)/launch/move_base.launch">
-            <arg name="cmd_vel_topic" default="/$(arg prefix1)/cmd_vel" />
-            <arg name="odom_topic" default="/$(arg prefix1)/odom" />
-            <arg name="move_forward_only" default="false"/>
-        </include-->
+        <include file="$(find gruppe5)/launch/move_base.launch">
+            <arg name="cmd_vel_topic" value="/$(arg prefix2)/cmd_vel" />
+            <arg name="odom_topic" value="/$(arg prefix2)/odom" />
+            <arg name="move_forward_only" value="false"/>
+            <arg name="prefix" value="$(arg prefix2)"/>
+        </include>
+        
+        <!-- start selfmade nodes -->
+        <!-- publishes goals -->
+        <node pkg="gruppe5" type="move_robot" name="move_rob_follower" output="screen">
+            <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
+        </node>
 
     </group>
+    <!--//////////////-->
+
 </launch>
