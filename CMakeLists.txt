@@ -11,11 +11,12 @@ find_package(catkin REQUIRED COMPONENTS
     roscpp
     rospy
     std_msgs
+    gazebo_ros
+    tf
     geometry_msgs
     sensor_msgs
-    tf
-    gazebo_ros
-    message_filters
+    image_transport
+    cv_bridge
     move_base_msgs
 )
 

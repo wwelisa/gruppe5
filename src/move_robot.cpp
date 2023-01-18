@@ -1,4 +1,4 @@
-#include "ros/ros.h"            //The ROS main header
+#include "ros/ros.h"
 #include <iostream>
 
 #include "move_base_msgs/MoveBaseGoal.h"
@@ -9,27 +9,30 @@
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-/**
- * Aus einem yaml-file werden die Zielposen ausgelesen. Diese werden dann nacheinander angefahren. Dabei wird das aktuelle Ziel an den navigation stack gepublisht.
- * @brief Die Main
- */
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "simple_navigation_goals");
 
+    // read the goals defined in the yaml file (maps folder)
     std::vector<std::vector <double>> goals;
     goals.resize(4);
-    ros::param::get("/move_rob/goal1", goals[0]);
-    ros::param::get("/move_rob/goal2", goals[1]);
-    ros::param::get("/move_rob/goal3", goals[2]);
-    ros::param::get("/move_rob/goal4", goals[3]);
+    ros::param::get("/robot1/move_rob_runner/goal1", goals[0]);
+    ros::param::get("/robot1/move_rob_runner/goal2", goals[1]);
+    ros::param::get("/robot1/move_rob_runner/goal3", goals[2]);
+    ros::param::get("/robot1/move_rob_runner/goal4", goals[3]);
+
+    //std::cout << "\n\n\ngoals: x:" << goals[0][0] << " y:" << goals[0][1] << std::endl;
+    //std::cout << "goals: x:" << goals[1][0] << " y:" << goals[1][1] << std::endl;
+    //std::cout << "goals: x:" << goals[2][0] << " y:" << goals[2][1] << "\n" << std::endl;
     
     //tell the action client that we want to spin a thread by default
     MoveBaseClient ac("move_base", true);
 
     //wait for the action server to come up
-    while(!ac.waitForServer(ros::Duration(5.0))){
-    ROS_INFO("Waiting for the move_base action server to come up");
+    while(!ac.waitForServer(ros::Duration(5.0)))
+    {
+        ROS_INFO("Waiting for the move_base action server to come up");
     }
 
     move_base_msgs::MoveBaseGoal goal;
@@ -44,9 +47,10 @@ int main(int argc, char** argv)
             goal.target_pose.pose.position.x = goals[i][0];
             goal.target_pose.pose.position.y = goals[i][1];
             goal.target_pose.pose.orientation.w = goals[i][2];
-            //std::cout << "new goal " << i << ":\tx: " << goals[i][0] << "\ty: " << goals[i][1] << "\ttheta: " << goals[i][2] << std::endl;
             
             ac.sendGoal(goal);
+            std::cout << "\nNew goal sent " << i << ":\tx: " << goals[i][0] << "\ty: " << goals[i][1] << "\ttheta: " << goals[i][2] << std::endl;
+            
             ac.waitForResult();
             if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
             {
