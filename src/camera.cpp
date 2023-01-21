@@ -98,44 +98,44 @@ void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
 }
 
 void Camera::ImageProcessing(){
-
+  //get a copy of the current frame
   cv::Mat img = m_cameraImage.clone();
+  //segment by blue
   cv::Mat img_segment = Segment(img);
   cv::Mat img_edges, img_result;
-
+  //get the edges of the segmentd
   cv::Canny(img_segment, img_edges, 0, 10, 5);
-
+  //get the countours of the edges
   vector<vector<cv::Point> > contours;
   vector<cv::Vec4i> hierarchy;
   cv::findContours(img_edges.clone(), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
-  //vector<RotatedRect> minRect( contours.size() );
+  //use the contours to find the center of the ball
   vector<RotatedRect> minEllipse( contours.size() );
-
   for( size_t i = 0; i < contours.size(); i++ )
   {
-      //minRect[i] = minAreaRect( contours[i] );
+      //if the contour is big enough fit an ellips around it
       if( contours[i].size() > 5 )
       {
           minEllipse[i] = fitEllipse( contours[i] );
       }
   }
+  //counter to save the biggest ellipse
+  int NumberBiggest = 0;
 
   for( size_t i = 0; i < contours.size(); i++ ){
-
+    //draw the ellipses
     ellipse( img, minEllipse[i], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
-    cv::Point2f center = minEllipse[i].center;
-    cout << "center x: " << center.x << " y: " << center.y << " i: " <<  i << " size: " << minEllipse[i].size << "\n\n\n\n";
-    cv::putText(img, // target image
-                to_string(i), // text
-                center, // top-left position
-                cv::FONT_HERSHEY_DUPLEX,
-                1.0,
-                CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), // font color
-                1);
+    //cout << "center x: " << center.x << " y: " << center.y << " i: " <<  i << " size: " << minEllipse[i].size << "\n";
+    //find the widest ellipse
+    if(minEllipse[NumberBiggest].size.width  < minEllipse[i].size.width ){
+      NumberBiggest = i;
+    }
   }
+  cv::Point2f center = minEllipse[NumberBiggest].center;
+  cout << "\n\n\n\n" << "center x: " << center.x << " y: " << center.y << "\n";
+  cout << "size biggest: " << minEllipse[NumberBiggest].size << " i: " << NumberBiggest << "\n\n\n\n";
 
-  
 
   /*
   cv::putText(img, // target image
