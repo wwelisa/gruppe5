@@ -14,6 +14,8 @@
 #include "sensor_msgs/Image.h"  //http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html
 
 using namespace cv;
+using namespace std;
+
 
 cv::Mat Segment(Mat img){
     //create the result image the same dimensions as the original
@@ -102,26 +104,38 @@ void Camera::ImageProcessing(){
   cv::Mat img_edges, img_result;
 
   cv::Canny(img_segment, img_edges, 0, 10, 5);
-  std::vector<std::vector<cv::Point> > contours;
-  std::vector<Vec4i> hierarchy;
+
+  vector<vector<cv::Point> > contours;
+  vector<cv::Vec4i> hierarchy;
   cv::findContours(img_edges.clone(), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
+  //vector<RotatedRect> minRect( contours.size() );
+  vector<RotatedRect> minEllipse( contours.size() );
 
-  for(int idx=0 ; idx >= 0; idx = hierarchy[idx][0] )
+  for( size_t i = 0; i < contours.size(); i++ )
   {
-      Scalar color( rand()&255, rand()&255, rand()&255 );
-      drawContours( img_edges, contours, idx, color, FILLED, 8, hierarchy );
+      //minRect[i] = minAreaRect( contours[i] );
+      if( contours[i].size() > 5 )
+      {
+          minEllipse[i] = fitEllipse( contours[i] );
+      }
   }
-  std::cout << "\n\n\n\n cont:" << contours[0] << "\n\n\n\n\n" << std::endl;
-  /*
-  cv::Point2f center;
-  float radius = 0;
-  minEnclosingCircle(contours[0], center, radius);
 
-  std::cout << "\n\n\n\n\n\n\n\n\n radius:" << radius << std::endl;
+  for( size_t i = 0; i < contours.size(); i++ ){
+
+    ellipse( img, minEllipse[i], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
+    cv::Point2f center = minEllipse[i].center;
+    cout << "center x: " << center.x << " y: " << center.y << " i: " <<  i << " size: " << minEllipse[i].size << "\n\n\n\n";
+    cv::putText(img, // target image
+                to_string(i), // text
+                center, // top-left position
+                cv::FONT_HERSHEY_DUPLEX,
+                1.0,
+                CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), // font color
+                1);
+  }
+
   
-  //Point2f center = Point2f(40,40);
-  //cv::circle(img, center, 5, Scalar(255,255,255), FILLED, 8,0);
 
   /*
   cv::putText(img, // target image
@@ -133,7 +147,7 @@ void Camera::ImageProcessing(){
                 1);
   */
 
-  cv::imshow("test", img_edges);
+  cv::imshow("test", img);
   cv::waitKey(20); 
 }
 
