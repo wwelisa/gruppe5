@@ -10,7 +10,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define MAX_TIMER_SEC 600 // time [sec] 10 minutes
+#define MAX_TIMER_SEC 30 // time [sec] 10 minutes
 #define TOLERANCE 0.35  // distance [m] between robots needed to be considered a successful catch
 
 void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data, double startTime)
@@ -36,10 +36,10 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msg
         std::string path = ros::package::getPath("gruppe5");
         std::string filepath = path + "/Time_Table";
         std::ofstream log(filepath.c_str(), std::ios_base::app | std::ios_base::out);
-        double eclapsedTime = ros::Time::now().toSec() - startTime;
+        double elapsedTime = ros::Time::now().toSec() - startTime;
         double secs = ros::Time::now().toSec();
-        std::cout << "Time: " << eclapsedTime << std::endl;
-        log << eclapsedTime << "\n";
+        std::cout << "Time: " << elapsedTime << std::endl;
+        log << elapsedTime << "\n";
 
         ros::shutdown();
     }
@@ -48,15 +48,15 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msg
 // gets Called when timer runs out
 void timerCallback(const ros::TimerEvent &event, double startTime)
 {
-    std::cout << "Programm Closes" << std::endl;
+    std::cout << "\n\nTimer expired!!" << std::endl;
     std::string path = ros::package::getPath("gruppe5");
     std::string filepath = path + "/Time_Table";
     std::ofstream log(filepath.c_str(), std::ios_base::app | std::ios_base::out);
-    double eclapsedTime = ros::Time::now().toSec() - startTime;
+    double elapsedTime = ros::Time::now().toSec() - startTime;
     double secs = ros::Time::now().toSec();
 
-    std::cout << "Time: " << eclapsedTime << std::endl;
-    log << eclapsedTime << "\n";
+    std::cout << "Time: " << elapsedTime << std::endl;
+    log << elapsedTime << "\n";
 
     ros::shutdown();
 }
@@ -83,7 +83,6 @@ int main(int argc, char **argv)
     sync.reset(new Sync(MySyncPolicy(10), sub1, sub2));   
     sync->registerCallback(boost::bind(&odomCallback, _1, _2, startTime));
 
-    
     ros::spin();
 
     return 0;

@@ -1,0 +1,15 @@
+sleep 15
+
+while true; do
+  sleep 1
+    if ! rosnode list | grep -q collision; then
+        echo "collision node is not running"
+    	pkill -f ros
+        break
+    else
+        echo "collision node is running"
+    fi
+  
+done
+
+exit 0
