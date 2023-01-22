@@ -15,9 +15,14 @@
     </node>
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
+    <!-- start selfmade nodes -->
     <node pkg="gruppe5" type="collision" name="collision" output="screen">
         <remap from="/collision/odom1_sub" to="/robot1/odom" />
         <remap from="/collision/odom2_sub" to="/robot2/odom" />
+    </node>
+
+    <node pkg="gruppe5" type="cam" name="cam" output="screen">
+        <remap from="cam/sub_topic" to="robot1/camera/rgb/image_raw" /> 
     </node>
 
 
