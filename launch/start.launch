@@ -15,16 +15,21 @@
     </node>
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find gruppe5)/cfg/standard.rviz"/>
 
+    <node pkg="gruppe5" type="collision" name="collision" output="screen">
+        <remap from="/collision/odom1_sub" to="/robot1/odom" />
+        <remap from="/collision/odom2_sub" to="/robot2/odom" />
+    </node>
+
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />
-    <arg name="r1_x" value="-0.6" />
-    <arg name="r1_y" value="0.3" />
+    <arg name="r1_x" value="-2.1" />
+    <arg name="r1_y" value="0.4" />
     <arg name="r1_z" value="0.0" />
 
     <arg name="prefix2" value="robot2" />
-    <arg name="r2_x" value="0.6" />
-    <arg name="r2_y" value="0.3" />
+    <arg name="r2_x" value="-2.4" />
+    <arg name="r2_y" value="0.0" />
     <arg name="r2_z" value="0.0" />
 
 
@@ -119,13 +124,13 @@
         <include file="$(find gruppe5)/launch/move_base.launch">
             <arg name="cmd_vel_topic" value="/$(arg prefix2)/cmd_vel" />
             <arg name="odom_topic" value="/$(arg prefix2)/odom" />
-            <arg name="move_forward_only" value="false"/>
+            <arg name="move_forward_only" value="true"/>
             <arg name="prefix" value="$(arg prefix2)"/>
         </include>
         
         <!-- start selfmade nodes -->
         <!-- publishes goals -->
-        <node pkg="gruppe5" type="move_robot" name="move_rob_runner" output="screen">
+        <node pkg="gruppe5" type="move_robot" name="move_robot_runner" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
         </node>
 
