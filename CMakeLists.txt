@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
     image_transport
     cv_bridge
     move_base_msgs
+    nav_msgs
+    message_filters
 )
 
 catkin_package(
@@ -44,3 +46,6 @@ target_link_libraries(cam ${catkin_LIBRARIES})
 
 add_executable(move_robot src/move_robot.cpp)
 target_link_libraries(move_robot ${catkin_LIBRARIES})
+
+add_executable(collision src/collision.cpp)
+target_link_libraries(collision ${catkin_LIBRARIES})

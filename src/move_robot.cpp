@@ -17,10 +17,10 @@ int main(int argc, char** argv)
     // read the goals defined in the yaml file (maps folder)
     std::vector<std::vector <double>> goals;
     goals.resize(4);
-    ros::param::get("/robot1/move_rob_runner/goal1", goals[0]);
-    ros::param::get("/robot1/move_rob_runner/goal2", goals[1]);
-    ros::param::get("/robot1/move_rob_runner/goal3", goals[2]);
-    ros::param::get("/robot1/move_rob_runner/goal4", goals[3]);
+    ros::param::get("/robot1/move_robot_follower/goal1", goals[0]);
+    ros::param::get("/robot1/move_robot_follower/goal2", goals[1]);
+    ros::param::get("/robot1/move_robot_follower/goal3", goals[2]);
+    ros::param::get("/robot1/move_robot_follower/goal4", goals[3]);
 
     //std::cout << "\n\n\ngoals: x:" << goals[0][0] << " y:" << goals[0][1] << std::endl;
     //std::cout << "goals: x:" << goals[1][0] << " y:" << goals[1][1] << std::endl;
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
             goal.target_pose.pose.orientation.w = goals[i][2];
             
             ac.sendGoal(goal);
-            std::cout << "\nNew goal sent " << i << ":\tx: " << goals[i][0] << "\ty: " << goals[i][1] << "\ttheta: " << goals[i][2] << std::endl;
+            //std::cout << "\nNew goal sent " << i << ":\tx: " << goals[i][0] << "\ty: " << goals[i][1] << "\ttheta: " << goals[i][2] << std::endl;
             
             ac.waitForResult();
             if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
