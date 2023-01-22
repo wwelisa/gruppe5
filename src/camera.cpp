@@ -134,7 +134,6 @@ void Camera::ImageProcessing(){
     cv::Point2f center = minEllipse[NumberBiggest].center;
     ellipse( img, minEllipse[NumberBiggest], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
     circle( img, center, 5, Scalar( 0, 0, 255 ), FILLED, LINE_8 );
-
     cout << "\n\n" << "center x: " << center.x << " y: " << center.y << "\n";
 
     float image_fifth = img.cols/5;
@@ -149,7 +148,6 @@ void Camera::ImageProcessing(){
     }else if(center.x <= image_fifth*5){
       output.data = "5";
     }
-
     cout << "\n\n" << "output: " << output << " center.x: " << center.x <<  "\n";
 
   }else{
