@@ -3,13 +3,14 @@
 #include <fstream>
 #include "ros/ros.h"
 #include "nav_msgs/Odometry.h"
+#include "ros/package.h"
 
 //synch callbacks https://answers.ros.org/question/280856/synchronizer-with-approximate-time-policy-in-a-class-c/
 #include <message_filters/subscriber.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define MAX_TIMER_SEC 600 // 10 minutes
+#define MAX_TIMER_SEC 600 // time [sec] 10 minutes
 #define TOLERANCE 0.35  // distance [m] between robots needed to be considered a successful catch
 
 void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data, double startTime)
@@ -32,26 +33,29 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msg
         std::cout << "Robot got chatched!\n\n" << std::endl;
         
         //writes the time into a file
-        std::ofstream log("Time_Table", std::ios_base::app | std::ios_base::out);
+        std::string path = ros::package::getPath("gruppe5");
+        std::string filepath = path + "/Time_Table";
+        std::ofstream log(filepath.c_str(), std::ios_base::app | std::ios_base::out);
         double eclapsedTime = ros::Time::now().toSec() - startTime;
         double secs = ros::Time::now().toSec();
-        ROS_INFO("eclapsedTime: %.2lf", eclapsedTime);
+        std::cout << "Time: " << eclapsedTime << std::endl;
         log << eclapsedTime << "\n";
 
         ros::shutdown();
     }
 }
 
+// gets Called when timer runs out
 void timerCallback(const ros::TimerEvent &event, double startTime)
 {
-    // code to execute when the timer expires
-    std::cout << "programm Closes" << std::endl;
-    std::ofstream log("Time_Table", std::ios_base::app | std::ios_base::out);
+    std::cout << "Programm Closes" << std::endl;
+    std::string path = ros::package::getPath("gruppe5");
+    std::string filepath = path + "/Time_Table";
+    std::ofstream log(filepath.c_str(), std::ios_base::app | std::ios_base::out);
     double eclapsedTime = ros::Time::now().toSec() - startTime;
     double secs = ros::Time::now().toSec();
 
-    ROS_INFO("eclapsedTime: %.2lf", eclapsedTime);
-    // log << secs << "\n";
+    std::cout << "Time: " << eclapsedTime << std::endl;
     log << eclapsedTime << "\n";
 
     ros::shutdown();
