@@ -10,8 +10,8 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define MAX_TIMER_SEC 300 // max time [sec] until shutdown
-#define TOLERANCE 0.35  // distance [m] between robots needed to be considered a successful catch
+#define MAX_TIMER_SEC 600 // time [sec] 10 minutes
+#define TOLERANCE 0.5  // distance [m] between robots needed to be considered a successful catch
 
 void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data, double startTime)
 {
@@ -39,7 +39,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msg
         double elapsedTime = ros::Time::now().toSec() - startTime;
         double secs = ros::Time::now().toSec();
         std::cout << "Time: " << elapsedTime << std::endl;
-        log << elapsedTime << "\n";
+        log << elapsedTime << "\t caught" << "\n";
 
         ros::shutdown();
     }
@@ -56,7 +56,7 @@ void timerCallback(const ros::TimerEvent &event, double startTime)
     double secs = ros::Time::now().toSec();
 
     std::cout << "Time: " << elapsedTime << std::endl;
-    log << elapsedTime << "\n";
+    log << elapsedTime << "\tTimer ran out" << "\n";
 
     ros::shutdown();
 }

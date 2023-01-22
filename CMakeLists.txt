@@ -44,8 +44,11 @@ include_directories(
 add_executable(cam src/camera.cpp)
 target_link_libraries(cam ${catkin_LIBRARIES})
 
-add_executable(move_robot src/move_robot.cpp)
-target_link_libraries(move_robot ${catkin_LIBRARIES})
+add_executable(move_robot_runner src/move_robot_runner.cpp)
+target_link_libraries(move_robot_runner ${catkin_LIBRARIES})
+
+add_executable(move_robot_follower src/move_robot_follower.cpp)
+target_link_libraries(move_robot_follower ${catkin_LIBRARIES})
 
 add_executable(collision src/collision.cpp)
 target_link_libraries(collision ${catkin_LIBRARIES})
