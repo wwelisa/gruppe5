@@ -10,6 +10,7 @@
   <!-- AMCL -->
   <node pkg="amcl" type="amcl" name="$(arg node_name)" output="log">
 
+
     <param name="initial_pose_x"            value="$(arg initial_pose_x)"/>
     <param name="initial_pose_y"            value="$(arg initial_pose_y)"/>
     <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>

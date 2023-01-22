@@ -154,13 +154,14 @@ void Camera::ImageProcessing(){
 
 
 
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "ekf");
     
     Camera cam;
     std::cout << "\n\n\n\n\n\n\n\n\nMAIN" << std::endl;
-    
+
     ros::spin();
 }
 
