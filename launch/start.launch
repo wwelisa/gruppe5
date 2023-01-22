@@ -66,13 +66,13 @@
         <include file="$(find gruppe5)/launch/move_base.launch">
             <arg name="cmd_vel_topic" value="/$(arg prefix1)/cmd_vel" />
             <arg name="odom_topic" value="/$(arg prefix1)/odom" />
-            <arg name="move_forward_only" value="false"/>
+            <arg name="move_forward_only" value="true"/>
             <arg name="prefix" value="$(arg prefix1)"/>
         </include>
         
         <!-- start selfmade nodes -->
         <!-- publishes goals -->
-        <node pkg="gruppe5" type="move_rob_runner" name="move_rob_runner" output="screen">
+        <node pkg="gruppe5" type="move_robot" name="move_robot_follower" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
         </node>
 
@@ -125,7 +125,7 @@
         
         <!-- start selfmade nodes -->
         <!-- publishes goals -->
-        <node pkg="gruppe5" type="move_robot" name="move_rob_follower" output="screen">
+        <node pkg="gruppe5" type="move_robot" name="move_rob_runner" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
         </node>
 
