@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Generate a random number between 1 and 100
+#random_number=$(( ( RANDOM % 100 )  + 1 ))
+
+# Generate random float between -2.5 and 2.5
+min=-2.5
+max=2.5
+
+r1_x=$(echo "($RANDOM * ($max - $min) / 32767) + $min" | bc -l)
+r1_y=$(echo "($RANDOM * ($max - $min) / 32767) + $min" | bc -l)
+r2_x=$(echo "($RANDOM * ($max - $min) / 32767) + $min" | bc -l)
+r2_y=$(echo "($RANDOM * ($max - $min) / 32767) + $min" | bc -l)
+
+echo "r1_x: $r1_x"
+echo "r1_y: $r1_y"
+echo "r2_x: $r2_x"
+echo "r2_y: $r2_y"
+
+# Pass the random number as an argument to the launch file
+roslaunch gruppe5 start.launch r1_x:=$r1_x r1_y:=$r1_y r2_x:=$r2_x r2_y:=$r2_y

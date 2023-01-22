@@ -23,14 +23,14 @@
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />
-    <arg name="r1_x" value="-2.1" />
-    <arg name="r1_y" value="0.4" />
-    <arg name="r1_z" value="0.0" />
+    <arg name="r1_x" default="-2.1" />
+    <arg name="r1_y" default="0.4" />
+    <arg name="r1_z" default="0.0" />
 
     <arg name="prefix2" value="robot2" />
-    <arg name="r2_x" value="-2.4" />
-    <arg name="r2_y" value="0.0" />
-    <arg name="r2_z" value="0.0" />
+    <arg name="r2_x" default="-2.4" />
+    <arg name="r2_y" default="0.0" />
+    <arg name="r2_z" default="0.0" />
 
 
     <!-- Robot Follower -->
