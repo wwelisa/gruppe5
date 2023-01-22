@@ -1,5 +1,9 @@
 # SOA Projekt
 
+## Achtung!!
+
+Damit es funktioniert muss in der map.yaml Datei der absolute Pfad zur korrespondierenden map.pgm eingetragen werden. Dies kann von System zu Sytem unterschiedlich sein. Für den FHTW-Docker-Container funktoniert es ohne Änderung.
+
 ## Git installieren
 
 [Downloaden](https://git-scm.com/downloads) und installieren.
