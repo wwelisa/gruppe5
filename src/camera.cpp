@@ -39,22 +39,22 @@ cv::Mat Segment(Mat img){
 
 class Camera
 {
-    public:
-        //--------------------- Variablen -------------------//
-        bool first_measurement;     ///< template Variable
+  public:
+    //--------------------- Variablen -------------------//
+    bool first_measurement;     ///< template Variable
 
-        std_msgs::String output;  ///< Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt
-        cv::Mat m_cameraImage;
+    std_msgs::String output;  ///< Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt
+    cv::Mat m_cameraImage;
 
-        //----------------------Methoden----------------------//
-        Camera();
-        void callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage);
+    //----------------------Methoden----------------------//
+    Camera();
+    void callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage);
 
-    private:
-        ros::Publisher tf_pub;    ///< Publisher für die erkannte Kugelposition
-        ros::Subscriber sub_camera;      ///< Subscriber für die Kamera
-        cv::Mat imageCb(const sensor_msgs::ImageConstPtr& msg);
-        void ImageProcessing();
+  private:
+    ros::Publisher tf_pub;    ///< Publisher für die erkannte Kugelposition
+    ros::Subscriber sub_camera;      ///< Subscriber für die Kamera
+    cv::Mat imageCb(const sensor_msgs::ImageConstPtr& msg);
+    void ImageProcessing();
 };
 
 cv::Mat Camera::imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -93,13 +93,13 @@ void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
         m_cameraImage = imageCb(cameraImage);
         ImageProcessing();
     }
-    output.data = "text";
     tf_pub.publish(output);
 }
 
 void Camera::ImageProcessing(){
   //get a copy of the current frame
   cv::Mat img = m_cameraImage.clone();
+  //cout << "\n\n\n\n" << "image cols: " << img.cols <<  "\n";    //=640
   //segment by blue
   cv::Mat img_segment = Segment(img);
   cv::Mat img_edges, img_result;
@@ -110,42 +110,51 @@ void Camera::ImageProcessing(){
   vector<cv::Vec4i> hierarchy;
   cv::findContours(img_edges.clone(), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
-  //use the contours to find the center of the ball
-  vector<RotatedRect> minEllipse( contours.size() );
-  for( size_t i = 0; i < contours.size(); i++ )
-  {
-      //if the contour is big enough fit an ellips around it
-      if( contours[i].size() > 5 )
-      {
-          minEllipse[i] = fitEllipse( contours[i] );
-      }
-  }
-  //counter to save the biggest ellipse
-  int NumberBiggest = 0;
-
-  for( size_t i = 0; i < contours.size(); i++ ){
-    //draw the ellipses
-    ellipse( img, minEllipse[i], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
-    //cout << "center x: " << center.x << " y: " << center.y << " i: " <<  i << " size: " << minEllipse[i].size << "\n";
-    //find the widest ellipse
-    if(minEllipse[NumberBiggest].size.width  < minEllipse[i].size.width ){
-      NumberBiggest = i;
+  if(contours.size() > 0){
+    //use the contours to find the center of the ball
+    vector<RotatedRect> minEllipse( contours.size() );
+    for( size_t i = 0; i < contours.size(); i++ )
+    {
+        //if the contour is big enough fit an ellips around it
+        if( contours[i].size() > 5 )
+        {
+            minEllipse[i] = fitEllipse( contours[i] );
+        }
     }
+    //counter to save the biggest ellipse
+    int NumberBiggest = 0;
+
+    for( size_t i = 0; i < contours.size(); i++ ){
+      //draw the ellipses
+      //find the widest ellipse
+      if(minEllipse[NumberBiggest].size.width  < minEllipse[i].size.width ){
+        NumberBiggest = i;
+      }
+    }
+    cv::Point2f center = minEllipse[NumberBiggest].center;
+    ellipse( img, minEllipse[NumberBiggest], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
+    circle( img, center, 5, Scalar( 0, 0, 255 ), FILLED, LINE_8 );
+    cout << "\n\n\n\n" << "center x: " << center.x << " y: " << center.y << "\n";
+
+    float image_fifth = img.cols/5;
+    if(center.x <= image_fifth){
+      output.data = "1";
+    }else if(center.x <= image_fifth*2){
+      output.data = "2";
+    }else if(center.x <= image_fifth*3){
+      output.data = "3";
+    }else if(center.x <= image_fifth*4){
+      output.data = "4";
+    }else if(center.x <= image_fifth*5){
+      output.data = "5";
+    }
+    cout << "\n\n\n\n" << "output: " << output << " center.x: " << center.x <<  "\n";
+
+  }else{
+    output.data = "0";
   }
-  cv::Point2f center = minEllipse[NumberBiggest].center;
-  cout << "\n\n\n\n" << "center x: " << center.x << " y: " << center.y << "\n";
-  cout << "size biggest: " << minEllipse[NumberBiggest].size << " i: " << NumberBiggest << "\n\n\n\n";
+  
 
-
-  /*
-  cv::putText(img, // target image
-                "hello", // text
-                cv::Point(20,20), // top-left position
-                cv::FONT_HERSHEY_DUPLEX,
-                1.0,
-                CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), // font color
-                1);
-  */
 
   cv::imshow("test", img);
   cv::waitKey(20); 
