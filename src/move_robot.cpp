@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     // read the goals defined in the yaml file (maps folder)
     std::vector<std::vector <double>> goals;
     goals.resize(4);
+
     ros::param::get("/robot1/move_robot_follower/goal1", goals[0]);
     ros::param::get("/robot1/move_robot_follower/goal2", goals[1]);
     ros::param::get("/robot1/move_robot_follower/goal3", goals[2]);
@@ -25,9 +26,10 @@ int main(int argc, char** argv)
     //std::cout << "\n\n\ngoals: x:" << goals[0][0] << " y:" << goals[0][1] << std::endl;
     //std::cout << "goals: x:" << goals[1][0] << " y:" << goals[1][1] << std::endl;
     //std::cout << "goals: x:" << goals[2][0] << " y:" << goals[2][1] << "\n" << std::endl;
+
     
     //tell the action client that we want to spin a thread by default
-    MoveBaseClient ac("move_base", true);
+    MoveBaseClient ac("/robot1/move_base", true);
 
     //wait for the action server to come up
     while(!ac.waitForServer(ros::Duration(5.0)))
@@ -36,7 +38,7 @@ int main(int argc, char** argv)
     }
 
     move_base_msgs::MoveBaseGoal goal;
-    goal.target_pose.header.frame_id = "map";
+    goal.target_pose.header.frame_id = "base_link";
     goal.target_pose.header.stamp = ros::Time::now();
 
     // fährt alle Ziele nacheinander an und beginnt dann wieder mit dem ersten

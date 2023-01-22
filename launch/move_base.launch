@@ -18,6 +18,7 @@
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
+
     <!--https://answers.ros.org/question/347139/move_base-namespace-issue-with-multi-robot-simulation/-->
     <param name="global_costmap/robot_base_frame" value="$(arg prefix)/base_footprint"/>
     <param name="local_costmap/robot_base_frame" value="$(arg prefix)/base_footprint"/>
