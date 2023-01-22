@@ -4,7 +4,7 @@
         <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="false"/>
+        <arg name="gui" value="true"/>
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
     </include>
@@ -22,13 +22,13 @@
     </node>
 
     <node pkg="gruppe5" type="cam" name="cam" output="screen">
-        <remap from="cam/sub_topic" to="robot1/camera/rgb/image_raw" /> 
+        <remap from="cam/sub_topic" to="robot2/camera/rgb/image_raw" /> 
     </node>
 
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />
-    <arg name="r1_x" default="-2.1" />
+    <arg name="r1_x" default="1.6" />
     <arg name="r1_y" default="0.4" />
     <arg name="r1_z" default="0.0" />
 
@@ -44,7 +44,7 @@
         <param name="tf_prefix" value="$(arg prefix1)" />
 
         <!-- spawn Robot-->
-        <include file="$(find gruppe5)/launch/robot.launch" >
+        <include file="$(find gruppe5)/launch/robot_ball.launch" >
             <arg name="x_pos" value="$(arg r1_x)" />
             <arg name="y_pos" value="$(arg r1_y)" />
             <arg name="z_pos" value="$(arg r1_z)" />
@@ -82,8 +82,8 @@
         
         <!-- start selfmade nodes -->
         <!-- publishes goals -->
-        <node pkg="gruppe5" type="move_robot" name="move_robot_follower" output="screen">
-            <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
+        <node pkg="gruppe5" type="move_robot_follower" name="move_robot_follower" output="screen">
+            <rosparam command="load" file="$(find gruppe5)/maps/goals_follower.yaml" />
         </node>
 
     </group>
@@ -97,7 +97,7 @@
         <param name="tf_prefix" value="$(arg prefix2)" />
 
         <!-- spawn Robot-->
-        <include file="$(find gruppe5)/launch/robot_ball.launch" >
+        <include file="$(find gruppe5)/launch/robot.launch" >
             <arg name="x_pos" value="$(arg r2_x)" />
             <arg name="y_pos" value="$(arg r2_y)" />
             <arg name="z_pos" value="$(arg r2_z)" />
@@ -135,8 +135,8 @@
         
         <!-- start selfmade nodes -->
         <!-- publishes goals -->
-        <node pkg="gruppe5" type="move_robot" name="move_robot_runner" output="screen">
-            <rosparam command="load" file="$(find gruppe5)/maps/goals.yaml" />
+        <node pkg="gruppe5" type="move_robot_runner" name="move_robot_runner" output="screen">
+            <rosparam command="load" file="$(find gruppe5)/maps/goals_runner.yaml" />
         </node>
 
     </group>
