@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
     
     //tell the action client that we want to spin a thread by default
-    MoveBaseClient ac("/robot1/move_base", true);
+    MoveBaseClient ac("move_base", true);
 
     //wait for the action server to come up
     while(!ac.waitForServer(ros::Duration(5.0)))
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     }
 
     move_base_msgs::MoveBaseGoal goal;
-    goal.target_pose.header.frame_id = "base_link";
+    goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
 
     // fährt alle Ziele nacheinander an und beginnt dann wieder mit dem ersten
