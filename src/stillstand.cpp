@@ -10,7 +10,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define TIMER 4   // how many sec needed for robot to stand still and then shutdown ros node
+#define TIMER 10   // how many sec needed for robot to stand still and then shutdown ros node
 #define VEL_TRESHOLD 0.07    // velocity threshold for "standing still"
 #define COUNT_TO_DEATH 4
 
