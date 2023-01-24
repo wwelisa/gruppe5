@@ -52,3 +52,6 @@ target_link_libraries(move_robot_follower ${catkin_LIBRARIES})
 
 add_executable(collision src/collision.cpp)
 target_link_libraries(collision ${catkin_LIBRARIES})
+
+add_executable(stillstand src/stillstand.cpp)
+target_link_libraries(stillstand ${catkin_LIBRARIES})

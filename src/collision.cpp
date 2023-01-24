@@ -11,7 +11,7 @@
 #include <message_filters/sync_policies/approximate_time.h>
 
 #define MAX_TIMER_SEC 600 // time [sec] 10 minutes
-#define TOLERANCE 0.5  // distance [m] between robots needed to be considered a successful catch
+#define TOLERANCE 0.4  // distance [m] between robots needed to be considered a successful catch
 
 void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data, double startTime)
 {

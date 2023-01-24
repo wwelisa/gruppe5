@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# Generate a random number between 1 and 100
-#random_number=$(( ( RANDOM % 100 )  + 1 ))
-
-# Generate random float between -2.5 and 2.5
 min=-2.0
 max=2.0
 
-for i in {1..2}
+for i in {1..20}
 do
+# Generate random float between min and max
 r1_x=$(awk "BEGIN {print ($RANDOM * ($max - $min) / 32767) + $min}")
 r1_y=$(awk "BEGIN {print ($RANDOM * ($max - $min) / 32767) + $min}")
 r2_x=$(awk "BEGIN {print ($RANDOM * ($max - $min) / 32767) + $min}")

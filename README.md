@@ -2,7 +2,7 @@
 
 ## Achtung!!
 
-Damit es funktioniert muss in der map.yaml Datei der absolute Pfad zur korrespondierenden map.pgm eingetragen werden. Dies kann von System zu Sytem unterschiedlich sein. Für den FHTW-Docker-Container funktoniert es ohne Änderung.
+Um in der map_hexa.yaml file muss der absolute Pfad von der map_hexa.pgm Datei angegeben werden. Dies kann von System zu System variieren.
 
 ## Git installieren
 
