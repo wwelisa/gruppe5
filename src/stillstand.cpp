@@ -32,6 +32,11 @@ private:
     boost::shared_ptr<Sync> sync;
 
 public:
+    /**
+     * Die Subscriber werden definiert. Diese werden synchronisiert.
+     * @brief Konstruktor der StillnessChecker Klasse
+     * 
+     */
     StillnessChecker() : is_still1(false), is_still2(false)
     {
         ros::NodeHandle nh("~");
@@ -49,6 +54,11 @@ public:
         counter2 = 0;
     }
 
+    /**
+     * Anhander der synchronisierten Odometrie-Daten wird überprüft, ob sich die beiden Roboter bewegen, mit hilfe eines Schwellenwertes wird dies ermittelt.
+     * @brief Überprüfung auf Stillstand
+     * 
+     */
     void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data)
     {
         geometry_msgs::Twist current_velocity_1 = odom_1_data->twist.twist;
@@ -76,6 +86,11 @@ public:
         }
     }
 
+    /**
+     * Der Timer wird alle 4 Sekunden aufgerufen und schaut, ob ein Stillstand derzeit ist und zählt einen Zähler hoch. Wenn 4 mal in Folge Stillstand ist, dann wird die Node gekillt und die Zeit und Grund aufgezeichnet.
+     * @brief Timer der überprüft ob Stillstand
+     * @param event Timer-event
+     */
     void timerCallback(const ros::TimerEvent &event)
     {
         if(is_still1) counter1++;
@@ -103,7 +118,11 @@ public:
     }
 };
 
-
+    /**
+     * Objekt der klasse StillnessChecker wird erstellt.
+     * @brief Main
+     * 
+     */
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "stillness_checker");

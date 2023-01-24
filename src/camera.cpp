@@ -8,14 +8,24 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-
 // Messages
 #include "std_msgs/String.h"
 #include "sensor_msgs/Image.h"  //http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html
 
+
 using namespace cv;
 using namespace std;
 
+
+/**
+ * Funktion um den blauen Ball aus dem Bild zu segmentieren. Wird jeden frame aufgerufen und dient als input für die 
+ * Kanten Erkennung. 
+ *
+ * @brief Segmentierungs funktion um blaue Objekte zu erkennen.
+ * 
+ * @param img Der aktulle frame der camera als cv::Mat
+ * @return cv::Mat Das segmentierte Bild als maske (nur 0  und 255)
+ */
 
 cv::Mat Segment(Mat img){
     //create the result image the same dimensions as the original
@@ -43,20 +53,28 @@ class Camera
     //--------------------- Variablen -------------------//
     bool first_measurement;     ///< template Variable
 
-    std_msgs::String output;  ///< Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt
-    cv::Mat m_cameraImage;
+    std_msgs::String output;    ///< Zahl von 0-5, 0=Ball nicht im Bild, 1=Ball ganz links, ..., 5=Ball ganz rechts
+    cv::Mat m_cameraImage;      ///< Der actuelle Frame der Kamera
 
     //----------------------Methoden----------------------//
     Camera();
     void callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage);
 
   private:
-    ros::Publisher tf_pub;    ///< Publisher für die erkannte Kugelposition
+    ros::Publisher tf_pub;           ///< Publisher für die erkannte Kugelposition
     ros::Subscriber sub_camera;      ///< Subscriber für die Kamera
-    cv::Mat imageCb(const sensor_msgs::ImageConstPtr& msg);
-    void ImageProcessing();
+    cv::Mat imageCb(const sensor_msgs::ImageConstPtr& msg);     
+    void ImageProcessing();         
 };
 
+/**
+ * Macht aus dem Bild aus der sensor_msgs ein cv::Mat Bild welches zur weiteren Verarbeitung verwendet werden kann.
+ *
+ * @brief Konvertiert das Bild von einem sensor_msgs::ImageConstPtr& zu einer cv::Mat
+ * 
+ * @param msg Die aktuelle message mit den Kamerabildern 
+ * @return cv::Mat Das Bild der Kamera als cv::Mat
+ */
 cv::Mat Camera::imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
     cv_bridge::CvImagePtr cv_ptr;
@@ -74,6 +92,14 @@ cv::Mat Camera::imageCb(const sensor_msgs::ImageConstPtr& msg)
     }
   }
 
+/**
+ * Constructor wird beim Erstellen des Objects aufgerufen. Subscribed auf das Topic "sub_topic" -> remap im launch file
+ * auf das Kamerabild des Fänger Roboters. \n
+ * Erstellt den Publisher um die Position des Balls zu publishen.
+ *
+ * @brief Construct a new Camera:: Camera object, subscribe to "sub_topic" and publish to "pub_cam_tf"
+ * 
+ */
 Camera::Camera()
 {
     ros::NodeHandle node("~");
@@ -84,11 +110,17 @@ Camera::Camera()
 
 }
 
+/**
+ * Callback des Camerasubscribers, wenn das Bild vorhanden ist (Breite größer als 0) wird es zuerst in ein cv::Mat konvertiert,
+ * und dann das Bild verarbeitet. \n
+ * Am Ende wird das Ergebnis der Verarbeitung gepublished.
+ *
+ * @brief Callback des Camerasubscribers
+ * 
+ * @param cameraImage 
+ */
 void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
 {
-    //std::cout << "CALLBACK" << std::endl;
-    //std::cout << "Bildbreite: " << cameraImage.width << "\tBildhöhe: " << cameraImage.height << std::endl;
-    //output = cameraImage.width.toString();
     if(cameraImage->width != 0){
         m_cameraImage = imageCb(cameraImage);
         ImageProcessing();
@@ -96,15 +128,29 @@ void Camera::callbackCamera(const sensor_msgs::ImageConstPtr& cameraImage)
     tf_pub.publish(output);
 }
 
+
+
+/**
+ * Das Bild (cv::Mat) wird zuerst Segmentiert. Dann werden von dem segmentierten Bild die Kanten mit canny() ermittelt.
+ * Aus den Kanten wird mittels findContours() die Konturen gefunden. Diese dienen als Input für minEllipse(), allen Konturen
+ * größer als 5 werden wird eine Ellipse "gefitted". Die breiteste Ellipse wird ermittelt und ihr Mittelpunkt dient wird in 
+ * einen von 5 Bildabschnitten eingeteilt. Welcher Bildabschnitt ist der Output der Funktion und wird gepublished. \n
+ * Wenn kein Ball im Bild erkannt wird wird 0 zurückgegeben.
+ * 
+ *
+ * @brief Bildverarbeitung gibt die umgefähre Position des Balls im Bild zurück.
+ */
 void Camera::ImageProcessing(){
   //get a copy of the current frame
   cv::Mat img = m_cameraImage.clone();
-  //cout << "\n\n\n\n" << "image cols: " << img.cols <<  "\n";    //=640
+
   //segment by blue
   cv::Mat img_segment = Segment(img);
   cv::Mat img_edges, img_result;
+
   //get the edges of the segmentd
   cv::Canny(img_segment, img_edges, 0, 10, 5);
+
   //get the countours of the edges
   vector<vector<cv::Point> > contours;
   vector<cv::Vec4i> hierarchy;
@@ -125,7 +171,6 @@ void Camera::ImageProcessing(){
     int NumberBiggest = 0;
 
     for( size_t i = 0; i < contours.size(); i++ ){
-      //draw the ellipses
       //find the widest ellipse
       if(minEllipse[NumberBiggest].size.width  < minEllipse[i].size.width ){
         NumberBiggest = i;
@@ -134,7 +179,6 @@ void Camera::ImageProcessing(){
     cv::Point2f center = minEllipse[NumberBiggest].center;
     ellipse( img, minEllipse[NumberBiggest], CV_RGB(((int)rand() % 255), ((int)rand() % 255), ((int)rand() % 255)), 2 );  
     circle( img, center, 5, Scalar( 0, 0, 255 ), FILLED, LINE_8 );
-    //cout << "\n\n" << "center x: " << center.x << " y: " << center.y << "\n";
 
     float image_fifth = img.cols/5;
     if(center.x <= image_fifth){
@@ -148,7 +192,6 @@ void Camera::ImageProcessing(){
     }else if(center.x <= image_fifth*5){
       output.data = "5";
     }
-    //cout << "\n\n" << "output: " << output << " center.x: " << center.x <<  "\n";
 
   }else{
     output.data = "0";
@@ -160,7 +203,13 @@ void Camera::ImageProcessing(){
 
 
 
-
+/**
+ * @brief Erstellt das Camera Objekt
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "ekf");

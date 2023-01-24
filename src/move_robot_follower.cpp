@@ -79,6 +79,11 @@ MoveRobotFollower::~MoveRobotFollower()
 {
 }
 
+/**
+ * Die Odometrie wird in diesem Callback aufgerufen. 
+ * @brief Speichert die aktuellen Odometrie-Daten in die Klassenvariablen
+ * @param odom_data Die aktuellen Odometrie-Daten, die Gazebo liefert. \n Geschwindigkeit [m/s] in X Richtung, sowie die Winkelgeschwindigkeit [rad/s] um Z
+ */
 void MoveRobotFollower::callbackOdom(const nav_msgs::Odometry::ConstPtr& odom_data)
 {
     //std::cout << "================ODOM=================" << std::endl;
@@ -90,6 +95,11 @@ void MoveRobotFollower::callbackOdom(const nav_msgs::Odometry::ConstPtr& odom_da
     pose_yaw = tf::getYaw(quat);
 }
 
+/**
+ * Nur wenn eine Veränderung der Kameradaten zustande kommt wird die followRobot() oder standardPath() Funktion aufgerufen
+ * @brief Ändert das Bewegungsverhalten des Roboter je nach erhaltener Kamerdetektion
+ * @param msg Die Position (Sektor/Abschnitt) der blauen Kugel im Bild als String
+ */
 void MoveRobotFollower::callbackCamera(const std_msgs::String::ConstPtr& msg)
 {
     std::cout << "\n================CAMERA============================" << std::endl;
@@ -107,6 +117,11 @@ void MoveRobotFollower::callbackCamera(const std_msgs::String::ConstPtr& msg)
     }
 }
 
+/**
+ * Je nach section wird ein Winkel addiert oder subtrahiert, um dann mit der aktuellen POSE des Roboters die Zielpose im WKS zu berechnen und publishen.
+ * @brief Bewegungsverhalten des Roboter bei Kamerdetektion des Läufers
+ * @param section Beschreibt in welchem Bereich des Bildes sich der Roboter aufhält
+ */
 void MoveRobotFollower::followRobot(int section)
 {
     ROS_INFO("\n--------------FOLLOW PATH ----------------\n");
@@ -151,6 +166,11 @@ void MoveRobotFollower::followRobot(int section)
     ac.sendGoal(current_goal);
 }
 
+/**
+ * Fährt ein vordefiniertes Ziel an.
+ * @brief Bewegungsverhalten, wenn nichts detektiert
+ * 
+ */
 void MoveRobotFollower::standardPath()
 {
     ROS_INFO("\n____________Standard PATH ______________\n");
@@ -167,7 +187,10 @@ void MoveRobotFollower::standardPath()
 }
 
 
-
+/**
+ * Objekt der Klasse MoveRobotFollower wir erstellt und es wird der Status des aktuellen Ziels in der Standardroute abgefragt. Wenn dieses erreicht ist, dann wird das nächste ziel aktiviert.
+ * @brief Die Main
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "simple_navigation_goals");
@@ -195,3 +218,66 @@ int main(int argc, char** argv)
     }
     return 0;
 }
+
+
+/*! \mainpage Fangen spielen mit 2 Turtlebots
+* 
+* \section Run
+* Um das Programm aufzuführen den Befehl "./startPrograms" im Terminal in dem Ordner scripts ausgeführt werden. Davor muss natürlich das Programm noch mit *catkin_make* kompiliert
+* werden. 
+*
+* \section Anforderungen
+* Gazebo-Welt: Turtlebot3 \n
+* Roboter: waffle_pi \n
+* 
+* 
+* \section Programmablauf
+* Es werden mehrere Nodes parallel ausgeführt. Einerseits die Steuerung der Roboter mittels move_base, anderseits wird die Kamera in einer Node ausgewertet vom Fänger-Roboter. Zudem laufen 2 Nodes die überprüfen, 
+* ob die Roboter kollidieren (gefangen) oder ob sich einer der beiden nicht bewegt. Sobald 10 Minuten ohne gefangen errreicht wurden werden alle Programme beendet. Wenn gefangen oder Stilltand, dann wird ebenso alles beendet. Dabei wird immer die vergangene Zeit 
+* und der Grund dokumentiert in Time_Table. \n
+*
+*
+* \subsection Skripts
+* In dem Bash-Skript startPrograms werden 4 zufällige Zahlen generiert mit denen das Launchfile start.launch aufgerufen wird. Diese zahlen dienen als Spawnkoordinaten für die beiden Roboter.
+* Wenn die Node collision oder stillstand beendet wird, dann wird dies im Skript killROS, welches im anderen Skript aufgerufen wird, abgegriffen und beendet alle ROS-Prozesse.
+* Wenn dies der Fall ist, dann beginnt es wieder von vorne. Es sind derzeit 20 Durchgänge definiert. 
+*
+* \section Nodes
+* 
+* \subsection Kameraauswertung
+* Erkennt die Position des Balls im Bild und gibt die ungefähre Position als int von 1 (links) - 5 (rechts) zurück.  Das Ergebnis ist 0 wenn der Ball nicht erkannt wurde.
+* 
+* \subsection Kollisionabfrage
+* Es wird auf die Odoemtrie beider Roboter subscribed und dann mit einem Toleranzwert verglichen, ob sich diese an der gleichen Stelle befinden. Wenn dies der Fall ist, 
+* dann wird der die benötigte Zeit in Time_Table mit der Info Kollision geschrieben und die Node killt sich.
+*
+* \subsection Stillstandsabfrage
+* Es wird in einem 5 Sekunden Takt überprüft, ob sich der Roboter bewegt (Odom-Geschwindigkeit in X und um Z). Wenn dies nicht der Fall ist wird ein Zähler erhöht. Sollte dies mehrmals hintereinander passieren, dann 
+* wird der die benötigte Zeit in Time_Table mit der Info Stillstand geschrieben und die Node killt sich.
+*
+* \subsection Bewegungsalgorithmus Fänger
+* Sofern keine Detektion der blauen Kugel vom Läufer-Roboter gerade geschiet, wird eine Standardroute abgefahren, um die Kugel zu dedektieren.
+* Die Standardroute besteht aus 10 Punkte (goals_follower.yaml). \n
+* Wird die Kugel detektiert, dann wird je nach übergebenem Sektor (links, mittig, rechst) ein Winkeloffset zur POSE dazugerechnet und ins WKS umgewandelt, damit die neue POSE dann an move_base gepublisht werden kann.
+* Der Roboter fährt dann immer 0.8 m in diese  Richtung und regelt sich. Wenn die Kugel für kurze Zeit verschwindet, dann geht er zur Standardroute zurück.
+*
+*
+* \subsection Bewegungsalgorithmus Läufer
+* Aus der goals_runner.yaml Datei werden 10 vordefinierte Punkte ausgelesen. Die werden an den move_base gepublisht und immer aktualisiert, wenn das aktuelle Ziel erreicht wurde. 
+* 
+*
+*
+* \section Setup
+* Für ein funktionierenden Ablauf müssen diese Schritte durchgeführt werden.
+*
+* \subsection Model
+* Das richtige Model turtlebot3 waffle_pi muss verwendet werden, da dieser eine Kamera besitzt.
+* 
+* \subsection Pfadplanung
+* Damit die Pfadplanung funktioniert muss eventuell das package dwa_local_planner nachinstalliert werden.
+* 
+
+* 
+* \section Authoren
+* Bauer, Keher, Lunkmoss, Salner, Wavruvska
+*/
