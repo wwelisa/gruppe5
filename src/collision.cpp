@@ -10,9 +10,22 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
+/**
+ * @param MAX_TIMER_SEC definiert die Zeit des Prozesses bevor dieser beendet wird.
+ * @param TOLERANCE definiert die Distanz zwischen zweier Roboter welche als gefangen gilt.
+ *  
+ */
 #define MAX_TIMER_SEC 600 // time [sec] 10 minutes
 #define TOLERANCE 0.4  // distance [m] between robots needed to be considered a successful catch
 
+
+/**
+ * Die odomCallback()speichert die Odometrie Daten des 1. und 2. Roboters in @param odom_1_data und in @param odom_2_data Funktion errechnet über die Odometrie beider Roboter die  
+ * @brief OdomCallback funktion berrechnet die distanz zwischen den beiden Robotern. 
+ * @param TOLERANCE definiert die Distanz zwischen den Robotern.
+ * @param startTime die Starttime des Prozesses wird übergeben
+ * @param elapsedTime ist die Zeit welche @param startTime - die aktuelle zeit ergibt.
+*/
 void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data, double startTime)
 {
     //ROS_INFO("Both Odoms synced!");
@@ -45,7 +58,11 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msg
     }
 }
 
-// gets Called when timer runs out
+/**
+ * die timerCallback wird verwendet um eine Simulationsdauer zu realisieren diese ist in 
+ * @param MAX_TIMER_SEC auf 600s begrenzt
+ * @brief timerCallback() durch die timerCallback wird ein Timeout im Prozess realisiert
+ */
 void timerCallback(const ros::TimerEvent &event, double startTime)
 {
     std::cout << "\n\nTimer expired!!" << std::endl;
@@ -61,6 +78,17 @@ void timerCallback(const ros::TimerEvent &event, double startTime)
     ros::shutdown();
 }
 
+/**
+ * in der int main()wird erst eine timer_node angelegt, anschließend ein nodehandler kreiert. 
+ * Die @param startTime wird verwendet um anschließend in den Callback Funktionen die Programm start zeit zu rechnen.
+ * 
+ * 
+ * @brief int main() wird vom Betriebssystem aufgerufen 
+ * 
+ * @param argc 
+ * @param argv 
+ * @return 0 
+ */
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "timer_node");

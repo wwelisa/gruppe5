@@ -12,6 +12,11 @@
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 
+/**
+ * Der Roboter (Läufer) fährt 10 vordefinierte Punkte ab, die in einer yaml Datei stehen.
+ * @brief Die Main
+ *
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "simple_navigation_goals");
