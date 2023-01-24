@@ -25,6 +25,10 @@
         <remap from="cam/sub_topic" to="robot2/camera/rgb/image_raw" /> 
     </node>
 
+    <node pkg="gruppe5" type="stillstand" name="stillstand" output="screen">
+        <remap from="/stillstand/odom_sub1" to="/robot1/odom" />
+        <remap from="/stillstand/odom_sub2" to="/robot2/odom" />
+    </node>
 
     <!-- initial poses of both robots-->
     <arg name="prefix1" value="robot1" />

@@ -6,8 +6,12 @@ while true; do
         echo "collision node is not running"
     	pkill -f ros
         break
+    if ! rosnode list | grep -q stillstand; then
+        echo "stillstand node is not running"
+    	pkill -f ros
+        break
     else
-        echo "collision node is running"
+        echo "collision and stillstand nodes are running"
     fi
   
 done
