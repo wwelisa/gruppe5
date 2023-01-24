@@ -158,6 +158,8 @@ Visualization Manager:
         All Enabled: false
         map:
           Value: true
+        robot1/ball_link:
+          Value: true
         robot1/base_footprint:
           Value: false
         robot1/base_link:
@@ -181,8 +183,6 @@ Visualization Manager:
         robot1/wheel_left_link:
           Value: false
         robot1/wheel_right_link:
-          Value: false
-        robot2/ball_link:
           Value: false
         robot2/base_footprint:
           Value: false
@@ -219,6 +219,8 @@ Visualization Manager:
           robot1/odom:
             robot1/base_footprint:
               robot1/base_link:
+                robot1/ball_link:
+                  {}
                 robot1/base_scan:
                   {}
                 robot1/camera_link:
@@ -238,8 +240,6 @@ Visualization Manager:
           robot2/odom:
             robot2/base_footprint:
               robot2/base_link:
-                robot2/ball_link:
-                  {}
                 robot2/base_scan:
                   {}
                 robot2/camera_link:
@@ -390,7 +390,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.487770080566406
+      Distance: 6.146302223205566
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -398,9 +398,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.20621314644813538
-        Y: -0.05385839194059372
-        Z: 0.0925404354929924
+        X: -1.7211048603057861
+        Y: 0.053535331040620804
+        Z: 0.09265995770692825
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -428,5 +428,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1536
-  X: 0
-  Y: 23
+  X: 8
+  Y: 31

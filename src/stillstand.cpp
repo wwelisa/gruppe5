@@ -10,8 +10,9 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define TIMER 3   // how many sec needed for robot to stand still and then shutdown ros node
-#define VEL_TRESHOLD 0.1    // velocity threshold for "standing still"
+#define TIMER 4   // how many sec needed for robot to stand still and then shutdown ros node
+#define VEL_TRESHOLD 0.07    // velocity threshold for "standing still"
+#define COUNT_TO_DEATH 4
 
 class StillnessChecker
 {
@@ -83,7 +84,7 @@ public:
         if(is_still2) counter2++;
         else counter2 = 0;
 
-        if (counter1 > 3 || counter2 > 3)
+        if (counter1 > COUNT_TO_DEATH || counter2 > COUNT_TO_DEATH)
         {
             std::cout << "\n\nRobot is standing still!" << std::endl;
             std::cout << "Robot is standing still!" << std::endl;
