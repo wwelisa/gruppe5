@@ -10,7 +10,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define TIMER 10   // how many sec needed for robot to stand still and then shutdown ros node
+#define TIMER 20   // how many sec needed for robot to stand still and then shutdown ros node
 
 class StillnessChecker
 {
@@ -87,7 +87,7 @@ public:
             std::cout << "Time: " << elapsedTime << std::endl;
             log << elapsedTime << "\t standing still" << "\n";
 
-            //ros::shutdown();
+            ros::shutdown();
         }
     }
 };
