@@ -7,7 +7,7 @@
 min=-2.0
 max=2.0
 
-for i in {1..2}
+for i in {1..20}
 do
 r1_x=$(awk "BEGIN {print ($RANDOM * ($max - $min) / 32767) + $min}")
 r1_y=$(awk "BEGIN {print ($RANDOM * ($max - $min) / 32767) + $min}")

@@ -148,7 +148,7 @@ void Camera::ImageProcessing(){
     }else if(center.x <= image_fifth*5){
       output.data = "5";
     }
-    cout << "\n\n" << "output: " << output << " center.x: " << center.x <<  "\n";
+    //cout << "\n\n" << "output: " << output << " center.x: " << center.x <<  "\n";
 
   }else{
     output.data = "0";

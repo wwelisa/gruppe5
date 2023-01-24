@@ -19,16 +19,16 @@ int main(int argc, char** argv)
     // read the goals defined in the yaml file (maps folder)
     std::vector<std::vector <double>> goals;
     goals.resize(10);
-    ros::param::get("/robot2/move_robot_runner/goal1", goals[0]);
-    ros::param::get("/robot2/move_robot_runner/goal2", goals[1]);
-    ros::param::get("/robot2/move_robot_runner/goal3", goals[2]);
-    ros::param::get("/robot2/move_robot_runner/goal4", goals[3]);
-    ros::param::get("/robot2/move_robot_runner/goal5", goals[4]);
-    ros::param::get("/robot2/move_robot_runner/goal6", goals[5]);
-    ros::param::get("/robot2/move_robot_runner/goal7", goals[6]);
-    ros::param::get("/robot2/move_robot_runner/goal8", goals[7]);
-    ros::param::get("/robot2/move_robot_runner/goal9", goals[8]);
-    ros::param::get("/robot2/move_robot_runner/goal10", goals[9]);
+    ros::param::get("/robot1/move_robot_runner/goal1", goals[0]);
+    ros::param::get("/robot1/move_robot_runner/goal2", goals[1]);
+    ros::param::get("/robot1/move_robot_runner/goal3", goals[2]);
+    ros::param::get("/robot1/move_robot_runner/goal4", goals[3]);
+    ros::param::get("/robot1/move_robot_runner/goal5", goals[4]);
+    ros::param::get("/robot1/move_robot_runner/goal6", goals[5]);
+    ros::param::get("/robot1/move_robot_runner/goal7", goals[6]);
+    ros::param::get("/robot1/move_robot_runner/goal8", goals[7]);
+    ros::param::get("/robot1/move_robot_runner/goal9", goals[8]);
+    ros::param::get("/robot1/move_robot_runner/goal10", goals[9]);
 
     //std::cout << "\n\n\ngoals: x:" << goals[0][0] << " y:" << goals[0][1] << std::endl;
     //std::cout << "goals: x:" << goals[1][0] << " y:" << goals[1][1] << std::endl;

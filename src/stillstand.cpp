@@ -10,7 +10,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define TIMER 10   // how many sec needed for robot to stand still and then shutdown ros node
+#define TIMER 3   // how many sec needed for robot to stand still and then shutdown ros node
 #define VEL_TRESHOLD 0.1    // velocity threshold for "standing still"
 
 class StillnessChecker
@@ -21,6 +21,7 @@ private:
     double still_threshold;
     double startTime;
     ros::Timer timer;
+    int counter1, counter2;
 
     //https://answers.ros.org/question/280856/synchronizer-with-approximate-time-policy-in-a-class-c/
     message_filters::Subscriber<nav_msgs::Odometry> sub1;
@@ -43,6 +44,8 @@ public:
         timer = nh.createTimer(ros::Duration(TIMER), &StillnessChecker::timerCallback, this);
         
         still_threshold = VEL_TRESHOLD;  // velocity threshold for "standing still"
+        counter1 = 0;
+        counter2 = 0;
     }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data)
@@ -74,7 +77,13 @@ public:
 
     void timerCallback(const ros::TimerEvent &event)
     {
-        if (is_still1 || is_still2)
+        if(is_still1) counter1++;
+        else counter1 = 0;
+
+        if(is_still2) counter2++;
+        else counter2 = 0;
+
+        if (counter1 > 3 || counter2 > 3)
         {
             std::cout << "\n\nRobot is standing still!" << std::endl;
             std::cout << "Robot is standing still!" << std::endl;
