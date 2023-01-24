@@ -88,6 +88,8 @@
         <!-- publishes goals -->
         <node pkg="gruppe5" type="move_robot_follower" name="move_robot_follower" output="screen">
             <rosparam command="load" file="$(find gruppe5)/maps/goals_follower.yaml" />
+            <remap from="/robot1/move_robot_follower/sub_cam_x_pos" to="/cam/pub_cam_tf" />
+            <remap from="/robot1/move_robot_follower/sub_odom_follower" to="/robot1/odom" />
         </node>
 
     </group>

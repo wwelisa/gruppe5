@@ -10,7 +10,8 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#define TIMER 20   // how many sec needed for robot to stand still and then shutdown ros node
+#define TIMER 10   // how many sec needed for robot to stand still and then shutdown ros node
+#define VEL_TRESHOLD 0.1    // velocity threshold for "standing still"
 
 class StillnessChecker
 {
@@ -41,15 +42,15 @@ public:
         startTime = ros::Time::now().toSec();
         timer = nh.createTimer(ros::Duration(TIMER), &StillnessChecker::timerCallback, this);
         
-        still_threshold = 0.2;  // velocity threshold for "standing still"
+        still_threshold = VEL_TRESHOLD;  // velocity threshold for "standing still"
     }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr &odom_1_data, const nav_msgs::Odometry::ConstPtr &odom_2_data)
     {
         geometry_msgs::Twist current_velocity_1 = odom_1_data->twist.twist;
         geometry_msgs::Twist current_velocity_2 = odom_2_data->twist.twist;
-        std::cout << "Current velocity 1: linear " << fabs(current_velocity_1.linear.x) << "\tangular vel: " << fabs(current_velocity_1.angular.z) << std::endl;
-        std::cout << "Current velocity 2: linear " << fabs(current_velocity_2.linear.x) << "\tangular vel: " << fabs(current_velocity_2.angular.z) << std::endl;
+        //std::cout << "Current velocity 1: linear " << fabs(current_velocity_1.linear.x) << "\tangular vel: " << fabs(current_velocity_1.angular.z) << std::endl;
+        //std::cout << "Current velocity 2: linear " << fabs(current_velocity_2.linear.x) << "\tangular vel: " << fabs(current_velocity_2.angular.z) << std::endl;
         if (fabs(current_velocity_1.linear.x) < still_threshold && fabs(current_velocity_1.angular.z) < still_threshold)
         {
             last_velocity1 = current_velocity_1;
