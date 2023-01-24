@@ -4,6 +4,10 @@
 
 Um in der map_hexa.yaml file muss der absolute Pfad von der map_hexa.pgm Datei angegeben werden. Dies kann von System zu System variieren.
 
+# Ausführen
+
+Zuerst catkin_make im catkin workspace. Zum Ausführen in den scripts Ordner gehen und dort das startPrograms script ausführen.
+
 ## Git installieren
 
 [Downloaden](https://git-scm.com/downloads) und installieren.
