@@ -1,0 +1,25 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- message_filters
+- catkin
+- tf
+- cv_bridge
+- image_transport
+- move_base_msgs
+- nav_msgs
+- geometry_msgs
+- roscpp
+- sensor_msgs
+- rospy
+- std_msgs
+description: The gruppe5 package
+license: TODO
+maintainers: gruppe5 <mr21m006@technikum-wien.at>
+msgs: []
+package_type: package
+repo_url: ''
+srvs: []
+url: ''

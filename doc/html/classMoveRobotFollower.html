@@ -30,14 +30,18 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1cbdbb2c8fbfbafddcee934d52e4aa4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a1cbdbb2c8fbfbafddcee934d52e4aa4b">callbackCamera</a> (const std_msgs::String::ConstPtr &amp;msg)</td></tr>
+<tr class="memdesc:a1cbdbb2c8fbfbafddcee934d52e4aa4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ändert das Bewegungsverhalten des Roboter je nach erhaltener Kamerdetektion.  <a href="classMoveRobotFollower.html#a1cbdbb2c8fbfbafddcee934d52e4aa4b">More...</a><br /></td></tr>
 <tr class="separator:a1cbdbb2c8fbfbafddcee934d52e4aa4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c45f936a055ef338da96b626d961783"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a5c45f936a055ef338da96b626d961783">callbackOdom</a> (const nav_msgs::Odometry::ConstPtr &amp;msg)</td></tr>
+<tr class="memdesc:a5c45f936a055ef338da96b626d961783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speichert die aktuellen Odometrie-Daten in die Klassenvariablen.  <a href="classMoveRobotFollower.html#a5c45f936a055ef338da96b626d961783">More...</a><br /></td></tr>
 <tr class="separator:a5c45f936a055ef338da96b626d961783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a970f73a53675df066f281849db658ee3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a970f73a53675df066f281849db658ee3">followRobot</a> (int section)</td></tr>
+<tr class="memdesc:a970f73a53675df066f281849db658ee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bewegungsverhalten des Roboter bei Kamerdetektion des Läufers.  <a href="classMoveRobotFollower.html#a970f73a53675df066f281849db658ee3">More...</a><br /></td></tr>
 <tr class="separator:a970f73a53675df066f281849db658ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06ccf0b337837ad5347081d41388a67c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a06ccf0b337837ad5347081d41388a67c">MoveRobotFollower</a> ()</td></tr>
 <tr class="separator:a06ccf0b337837ad5347081d41388a67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f452c1e47eda302e93500b4d53baa1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a0f452c1e47eda302e93500b4d53baa1a">standardPath</a> ()</td></tr>
+<tr class="memdesc:a0f452c1e47eda302e93500b4d53baa1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bewegungsverhalten, wenn nichts detektiert.  <a href="classMoveRobotFollower.html#a0f452c1e47eda302e93500b4d53baa1a">More...</a><br /></td></tr>
 <tr class="separator:a0f452c1e47eda302e93500b4d53baa1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ae128a7cb7e9df4d9673999799ab556"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveRobotFollower.html#a3ae128a7cb7e9df4d9673999799ab556">~MoveRobotFollower</a> ()</td></tr>
 <tr class="separator:a3ae128a7cb7e9df4d9673999799ab556"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,7 +133,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00093">93</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
+<p>Ändert das Bewegungsverhalten des Roboter je nach erhaltener Kamerdetektion. </p>
+<p>Nur wenn eine Veränderung der Kameradaten zustande kommt wird die <a class="el" href="classMoveRobotFollower.html#a970f73a53675df066f281849db658ee3" title="Bewegungsverhalten des Roboter bei Kamerdetektion des Läufers.">followRobot()</a> oder <a class="el" href="classMoveRobotFollower.html#a0f452c1e47eda302e93500b4d53baa1a" title="Bewegungsverhalten, wenn nichts detektiert.">standardPath()</a> Funktion aufgerufen </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>Die Position (Sektor/Abschnitt) der blauen Kugel im Bild als String </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00103">103</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
 
 </div>
 </div>
@@ -143,13 +155,22 @@ Private Attributes</h2></td></tr>
           <td class="memname">void MoveRobotFollower::callbackOdom </td>
           <td>(</td>
           <td class="paramtype">const nav_msgs::Odometry::ConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td class="paramname"><em>odom_data</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00082">82</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
+<p>Speichert die aktuellen Odometrie-Daten in die Klassenvariablen. </p>
+<p>Die Odometrie wird in diesem Callback aufgerufen. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">odom_data</td><td>Die aktuellen Odometrie-Daten, die Gazebo liefert. <br  />
+ Geschwindigkeit [m/s] in X Richtung, sowie die Winkelgeschwindigkeit [rad/s] um Z </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00087">87</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
 
 </div>
 </div>
@@ -169,7 +190,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00110">110</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
+<p>Bewegungsverhalten des Roboter bei Kamerdetektion des Läufers. </p>
+<p>Je nach section wird ein Winkel addiert oder subtrahiert, um dann mit der aktuellen POSE des Roboters die Zielpose im WKS zu berechnen und publishen. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">section</td><td>Beschreibt in welchem Bereich des Bildes sich der Roboter aufhält </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00125">125</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
 
 </div>
 </div>
@@ -188,7 +217,10 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00154">154</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
+<p>Bewegungsverhalten, wenn nichts detektiert. </p>
+<p>Fährt ein vordefiniertes Ziel an. </p>
+
+<p class="definition">Definition at line <a class="el" href="move__robot__follower_8cpp_source.html#l00174">174</a> of file <a class="el" href="move__robot__follower_8cpp_source.html">move_robot_follower.cpp</a>.</p>
 
 </div>
 </div>
@@ -434,7 +466,7 @@ Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/gruppe5">gruppe5</a><br />
 Author(s): </br />
-<small>autogenerated on Tue Jan 24 2023 16:32:47</small>
+<small>autogenerated on Wed Jan 25 2023 08:54:40</small>
 </div>
 </body>
 </html>

@@ -3,18 +3,18 @@ authors: ''
 brief: ''
 bugtracker: ''
 depends:
-- roscpp
-- geometry_msgs
 - cv_bridge
-- nav_msgs
-- std_msgs
-- rospy
 - catkin
-- sensor_msgs
-- tf
 - message_filters
-- move_base_msgs
 - image_transport
+- move_base_msgs
+- nav_msgs
+- sensor_msgs
+- geometry_msgs
+- roscpp
+- std_msgs
+- tf
+- rospy
 description: The gruppe5 package
 license: TODO
 maintainers: gruppe5 <mr21m006@technikum-wien.at>

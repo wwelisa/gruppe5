@@ -269,14 +269,26 @@ int main(int argc, char** argv)
 *
 * \section Setup
 * Für ein funktionierenden Ablauf müssen diese Schritte durchgeführt werden.
+* In der map_hexa.yaml file muss der absolute Pfad von der map_hexa.pgm Datei angegeben werden. Dies kann von System zu System variieren.
+*
 *
 * \subsection Model
 * Das richtige Model turtlebot3 waffle_pi muss verwendet werden, da dieser eine Kamera besitzt.
 * 
 * \subsection Pfadplanung
 * Damit die Pfadplanung funktioniert muss eventuell das package dwa_local_planner nachinstalliert werden.
-* 
-
+*
+* \subsection
+* Hyperparameter: \n
+* Am Anfang der CPP-Dateien sind #defines wo die Parameter verändert werden können. Nach Ändern dieser muss catkin_make ausfgeführt werden. \n \n
+* Skript startPrograms: min und max Variablen für die Range in der die Roboter spawnen \n In der For-Schleife, kann die Anzahl der Durchläufe verändert werden.
+* \n
+* Collision.cpp: MAX_TIMER_SEC 600 --> Zeit in sec, wenn nicht gefangen das abgebrochen wird \n 
+* TOLERANCE 0.4  --> Distanz in Meter zwischen Roboter, die unterschritten werden muss um als gefangen zu gelten. \n
+* Stillstand.cpp: TIMER 10 --> wie viele Sekunden der Roboter braucht, um stillzustehen und dann den Ros-Knoten abzuschalten \n
+* VEL_TRESHOLD 0.07 --> Geschwindigkeitsschwelle für "Stillstand" \n
+* COUNT_TO_DEATH 4 --> Wie oft in FOlge der Roboter unter VEL_TRESHOLD sein muss, wenn dies erreicht dann killt sich die node. \n
+* Move_robot_follower.cpp: FORWARD_DISTANCE --> wie viel das Goal nach vorne geschoben wird in Meter, bei detektiertem Objekt
 * 
 * \section Authoren
 * Bauer, Keher, Lunkmoss, Salner, Wavruvska

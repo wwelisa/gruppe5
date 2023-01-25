@@ -31,8 +31,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6fdff39b68d5bf3c88b21ba0c94e6320"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#a6fdff39b68d5bf3c88b21ba0c94e6320">callbackCamera</a> (const sensor_msgs::ImageConstPtr &amp;cameraImage)</td></tr>
+<tr class="memdesc:a6fdff39b68d5bf3c88b21ba0c94e6320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback des Camerasubscribers.  <a href="classCamera.html#a6fdff39b68d5bf3c88b21ba0c94e6320">More...</a><br /></td></tr>
 <tr class="separator:a6fdff39b68d5bf3c88b21ba0c94e6320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01f94c3543f56ede7af49dc778f19331"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#a01f94c3543f56ede7af49dc778f19331">Camera</a> ()</td></tr>
+<tr class="memdesc:a01f94c3543f56ede7af49dc778f19331"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classCamera.html">Camera</a>:: <a class="el" href="classCamera.html">Camera</a> object, subscribe to "sub_topic" and publish to "pub_cam_tf".  <a href="classCamera.html#a01f94c3543f56ede7af49dc778f19331">More...</a><br /></td></tr>
 <tr class="separator:a01f94c3543f56ede7af49dc778f19331"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -41,16 +43,19 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a801e5c5ee82e4e7412fa7ba53f8a9052"><td class="mdescLeft">&#160;</td><td class="mdescRight">template Variable  <a href="classCamera.html#a801e5c5ee82e4e7412fa7ba53f8a9052">More...</a><br /></td></tr>
 <tr class="separator:a801e5c5ee82e4e7412fa7ba53f8a9052"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca024929349dbdfa9b784c187749c44c"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#aca024929349dbdfa9b784c187749c44c">m_cameraImage</a></td></tr>
+<tr class="memdesc:aca024929349dbdfa9b784c187749c44c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Der actuelle Frame der Kamera.  <a href="classCamera.html#aca024929349dbdfa9b784c187749c44c">More...</a><br /></td></tr>
 <tr class="separator:aca024929349dbdfa9b784c187749c44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabd4df66125c8ba5f80d58be966e5b42"><td class="memItemLeft" align="right" valign="top">std_msgs::String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#aabd4df66125c8ba5f80d58be966e5b42">output</a></td></tr>
-<tr class="memdesc:aabd4df66125c8ba5f80d58be966e5b42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt.  <a href="classCamera.html#aabd4df66125c8ba5f80d58be966e5b42">More...</a><br /></td></tr>
+<tr class="memdesc:aabd4df66125c8ba5f80d58be966e5b42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zahl von 0-5, 0=Ball nicht im Bild, 1=Ball ganz links, ..., 5=Ball ganz rechts.  <a href="classCamera.html#aabd4df66125c8ba5f80d58be966e5b42">More...</a><br /></td></tr>
 <tr class="separator:aabd4df66125c8ba5f80d58be966e5b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a22676ab8993f4cf203cc344dab55d2ce"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#a22676ab8993f4cf203cc344dab55d2ce">imageCb</a> (const sensor_msgs::ImageConstPtr &amp;msg)</td></tr>
+<tr class="memdesc:a22676ab8993f4cf203cc344dab55d2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Konvertiert das Bild von einem sensor_msgs::ImageConstPtr&amp; zu einer cv::Mat.  <a href="classCamera.html#a22676ab8993f4cf203cc344dab55d2ce">More...</a><br /></td></tr>
 <tr class="separator:a22676ab8993f4cf203cc344dab55d2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af929087d74d9ded88de922f3d091906c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#af929087d74d9ded88de922f3d091906c">ImageProcessing</a> ()</td></tr>
+<tr class="memdesc:af929087d74d9ded88de922f3d091906c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bildverarbeitung gibt die umgefähre Position des Balls im Bild zurück.  <a href="classCamera.html#af929087d74d9ded88de922f3d091906c">More...</a><br /></td></tr>
 <tr class="separator:af929087d74d9ded88de922f3d091906c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -64,7 +69,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00040">40</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00050">50</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a01f94c3543f56ede7af49dc778f19331"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a01f94c3543f56ede7af49dc778f19331">&#9670;&nbsp;</a></span>Camera()</h2>
@@ -81,7 +86,11 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00077">77</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p>Construct a new <a class="el" href="classCamera.html">Camera</a>:: <a class="el" href="classCamera.html">Camera</a> object, subscribe to "sub_topic" and publish to "pub_cam_tf". </p>
+<p>Constructor wird beim Erstellen des Objects aufgerufen. Subscribed auf das Topic "sub_topic" -&gt; remap im launch file auf das Kamerabild des Fänger Roboters. <br  />
+Erstellt den Publisher um die Position des Balls zu publishen. </p>
+
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00103">103</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -102,7 +111,17 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00087">87</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p>Callback des Camerasubscribers. </p>
+<p>Callback des Camerasubscribers, wenn das Bild vorhanden ist (Breite größer als 0) wird es zuerst in ein cv::Mat konvertiert, und dann das Bild verarbeitet. <br  />
+Am Ende wird das Ergebnis der Verarbeitung gepublished.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cameraImage</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00122">122</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -130,7 +149,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00060">60</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p>Konvertiert das Bild von einem sensor_msgs::ImageConstPtr&amp; zu einer cv::Mat. </p>
+<p>Macht aus dem Bild aus der sensor_msgs ein cv::Mat Bild welches zur weiteren Verarbeitung verwendet werden kann.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>Die aktuelle message mit den Kamerabildern </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cv::Mat Das Bild der Kamera als cv::Mat </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00078">78</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -157,7 +186,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00099">99</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p>Bildverarbeitung gibt die umgefähre Position des Balls im Bild zurück. </p>
+<p>Das Bild (cv::Mat) wird zuerst Segmentiert. Dann werden von dem segmentierten Bild die Kanten mit canny() ermittelt. Aus den Kanten wird mittels findContours() die Konturen gefunden. Diese dienen als Input für minEllipse(), allen Konturen größer als 5 werden wird eine Ellipse "gefitted". Die breiteste Ellipse wird ermittelt und ihr Mittelpunkt dient wird in einen von 5 Bildabschnitten eingeteilt. Welcher Bildabschnitt ist der Output der Funktion und wird gepublished. <br  />
+Wenn kein Ball im Bild erkannt wird wird 0 zurückgegeben. </p>
+
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00143">143</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -176,7 +209,7 @@ Private Attributes</h2></td></tr>
 
 <p>template Variable </p>
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00044">44</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00054">54</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -192,7 +225,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00047">47</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p>Der actuelle Frame der Kamera. </p>
+
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00057">57</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -208,9 +243,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Pose mit Kovarianz, welche gepublisht wird und in RVIZ dargestellt. </p>
+<p>Zahl von 0-5, 0=Ball nicht im Bild, 1=Ball ganz links, ..., 5=Ball ganz rechts. </p>
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00046">46</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00056">56</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +271,7 @@ Private Attributes</h2></td></tr>
 
 <p>Subscriber für die Kamera. </p>
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00055">55</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00065">65</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +297,7 @@ Private Attributes</h2></td></tr>
 
 <p>Publisher für die erkannte Kugelposition. </p>
 
-<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00054">54</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="camera_8cpp_source.html#l00064">64</a> of file <a class="el" href="camera_8cpp_source.html">camera.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,7 +310,7 @@ Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/gruppe5">gruppe5</a><br />
 Author(s): </br />
-<small>autogenerated on Tue Jan 24 2023 16:32:47</small>
+<small>autogenerated on Wed Jan 25 2023 08:54:40</small>
 </div>
 </body>
 </html>
